@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SFM Supplier Purchases Dashboard 2025</title>
+  <style>
+    :root{
+      --bg0:#060b14;--bg1:#081525;--bg2:#0d1d33;--panel:rgba(13,26,46,.72);--panel2:rgba(255,255,255,.065);
+      --text:#edf6ff;--muted:#91a4bd;--line:rgba(255,255,255,.12);--teal:#43e7d4;--blue:#7da2ff;--gold:#ffcd67;--red:#ff7185;--green:#57e389;
+      --shadow:0 22px 70px rgba(0,0,0,.38);--radius:24px;
+    }
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:var(--bg0);min-height:100vh;}
+    body:before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 10% 0%,rgba(67,231,212,.25),transparent 34%),radial-gradient(circle at 85% 8%,rgba(125,162,255,.24),transparent 34%),linear-gradient(135deg,var(--bg0),var(--bg1) 48%,#06101d);z-index:-2}
+    body:after{content:"";position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.028) 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.9),transparent 84%);z-index:-1;pointer-events:none}
+    .login{position:fixed;inset:0;display:grid;place-items:center;padding:20px;background:radial-gradient(circle at top left,rgba(67,231,212,.26),transparent 38%),rgba(3,7,13,.94);z-index:20}
+    .loginBox{width:min(430px,100%);background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.055));border:1px solid var(--line);border-radius:30px;box-shadow:var(--shadow);padding:28px;backdrop-filter:blur(18px)}
+    .loginLogo{width:62px;height:62px;border-radius:20px;background:linear-gradient(135deg,var(--teal),var(--blue));display:grid;place-items:center;color:#06111d;font-weight:950;font-size:21px;margin-bottom:16px}.login h1{font-size:28px;margin:0 0 8px}.login p{color:var(--muted);line-height:1.55}.login input{width:100%;border:1px solid var(--line);background:rgba(0,0,0,.22);color:var(--text);border-radius:16px;padding:15px;margin:8px 0 12px;outline:0;font-size:16px}.login .error{color:#ff9ca9;min-height:22px;font-size:13px}
+    .app{display:grid;grid-template-columns:294px minmax(0,1fr);min-height:100vh}.side{position:sticky;top:0;height:100vh;padding:26px 18px;background:rgba(3,9,18,.68);border-right:1px solid var(--line);backdrop-filter:blur(18px);overflow:auto}.brand{display:flex;gap:13px;align-items:center;margin-bottom:24px}.logo{width:52px;height:52px;border-radius:18px;background:linear-gradient(135deg,var(--teal),var(--blue));display:grid;place-items:center;color:#07121e;font-weight:950;box-shadow:0 0 44px rgba(67,231,212,.22)}.brand h2{margin:0;font-size:16px}.brand span{display:block;color:var(--muted);font-size:12px;margin-top:4px}
+    .fieldLabel{font-size:12px;color:var(--muted);display:block;margin:15px 0 7px}.input,.select{width:100%;border:1px solid var(--line);background:rgba(255,255,255,.065);color:var(--text);border-radius:16px;padding:12px 13px;outline:none}.select option{background:#0f1b2f}.nav{margin-top:18px;display:grid;gap:8px}.nav button{display:flex;gap:10px;align-items:center;width:100%;padding:12px;border:0;border-radius:16px;background:transparent;color:var(--muted);cursor:pointer;text-align:left}.nav button:hover,.nav button.active{background:linear-gradient(90deg,rgba(67,231,212,.14),rgba(125,162,255,.08));color:var(--text)}.dot{width:8px;height:8px;border-radius:99px;background:currentColor}.sideFoot{margin-top:22px;border:1px solid var(--line);background:rgba(255,255,255,.045);border-radius:18px;padding:14px;color:var(--muted);font-size:12px;line-height:1.5}
+    main{padding:28px;min-width:0}.hero{position:relative;overflow:hidden;border:1px solid var(--line);background:linear-gradient(135deg,rgba(67,231,212,.13),rgba(125,162,255,.1) 40%,rgba(255,255,255,.045));border-radius:32px;padding:26px;margin-bottom:18px;box-shadow:var(--shadow)}.hero:after{content:"";position:absolute;right:-80px;top:-80px;width:260px;height:260px;border-radius:50%;background:rgba(67,231,212,.18);filter:blur(4px)}.heroTop{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;position:relative;z-index:1}.eyebrow{color:var(--teal);font-weight:800;font-size:12px;letter-spacing:.16em;text-transform:uppercase}.hero h1{font-size:clamp(30px,4vw,54px);line-height:1;margin:10px 0}.hero p{max-width:760px;color:#c3d0e3;line-height:1.65;margin:0}.chip{border:1px solid var(--line);border-radius:999px;padding:10px 14px;background:rgba(3,9,18,.42);color:#cfd9e8;white-space:nowrap}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.btn{border:0;border-radius:15px;padding:12px 15px;font-weight:850;cursor:pointer;background:linear-gradient(135deg,var(--teal),var(--blue));color:#06111d}.btn.secondary{background:rgba(255,255,255,.08);color:var(--text);border:1px solid var(--line)}
+    .grid{display:grid;gap:16px}.kpis{grid-template-columns:1.4fr repeat(3,1fr);margin-bottom:16px}.card{background:linear-gradient(180deg,rgba(255,255,255,.085),rgba(255,255,255,.04));border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;backdrop-filter:blur(16px)}.kpi .label{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.08em}.kpi .value{font-size:clamp(22px,2.6vw,38px);font-weight:950;margin-top:8px}.kpi .hint{color:var(--muted);font-size:12px;margin-top:7px}.accent{color:var(--teal)}.gold{color:var(--gold)}
+    .dashboard{grid-template-columns:1.3fr .85fr;margin-bottom:16px}.sectionTitle{display:flex;justify-content:space-between;gap:12px;align-items:center;margin:0 0 14px}.sectionTitle h3{margin:0;font-size:18px}.tiny{color:var(--muted);font-size:12px}.bars{display:grid;gap:12px}.barRow{display:grid;grid-template-columns:170px 1fr 140px;gap:12px;align-items:center}.barName{color:#c8d5e9;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}.barTrack{height:16px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden}.barFill{height:100%;background:linear-gradient(90deg,var(--teal),var(--blue));border-radius:99px}.barValue{text-align:right;font-weight:850}.donutWrap{display:grid;place-items:center;min-height:290px}.donut{width:228px;height:228px;border-radius:50%;position:relative;background:conic-gradient(var(--teal) 0 24%,var(--blue) 24% 47%,var(--gold) 47% 64%,var(--green) 64% 83%,var(--red) 83% 100%);box-shadow:inset 0 0 24px rgba(0,0,0,.18)}.donut:after{content:"";position:absolute;inset:38px;border-radius:50%;background:#0d1a2e}.donutCenter{position:absolute;inset:0;display:grid;place-items:center;text-align:center;z-index:2}.donutCenter b{font-size:20px}.donutCenter span{color:var(--muted);font-size:12px}
+    .supplierCards{grid-template-columns:repeat(auto-fit,minmax(250px,1fr));margin-bottom:16px}.supplierCard{cursor:pointer;transition:.18s}.supplierCard:hover{transform:translateY(-4px);border-color:rgba(67,231,212,.45)}.supplierCard h3{margin:0 0 10px}.amount{font-size:22px;font-weight:950;color:var(--teal)}.bracket{font-size:12px;color:#c6d5e8;margin-top:6px;line-height:1.4}.mini{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.mini div{background:rgba(0,0,0,.16);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:10px}.mini span{display:block;color:var(--muted);font-size:11px}.mini b{display:block;margin-top:4px}
+    .page{display:none}.page.active{display:block}.toolbar{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:14px;flex-wrap:wrap}.tabs{display:flex;gap:8px;flex-wrap:wrap}.badge{display:inline-block;padding:5px 9px;border-radius:999px;border:1px solid rgba(125,162,255,.35);background:rgba(125,162,255,.11);color:#d7e1ff;font-weight:750;font-size:12px}.badge.eur{border-color:rgba(67,231,212,.4);background:rgba(67,231,212,.12)}.badge.usd{border-color:rgba(255,205,103,.4);background:rgba(255,205,103,.12);color:#ffe5aa}.tableWrap{overflow:auto;border:1px solid var(--line);border-radius:20px;max-height:70vh}table{border-collapse:collapse;width:100%;min-width:1080px;background:rgba(2,8,18,.36)}th,td{padding:13px 14px;border-bottom:1px solid rgba(255,255,255,.08);text-align:left;font-size:13px;vertical-align:top}th{position:sticky;top:0;background:#0d1a2e;color:#dae7fa;z-index:2}tr:hover td{background:rgba(67,231,212,.045)}.num{text-align:right;font-variant-numeric:tabular-nums}.productText{max-width:560px}.footer{color:var(--muted);font-size:12px;text-align:center;padding:18px}
+    @media(max-width:980px){.app{grid-template-columns:1fr}.side{position:relative;height:auto}.nav{grid-template-columns:repeat(2,1fr)}main{padding:16px}.heroTop{display:block}.chip{display:inline-block;margin-top:14px}.kpis,.dashboard{grid-template-columns:1fr}.barRow{grid-template-columns:1fr}.barValue{text-align:left}.tableWrap{max-height:none}.hero{padding:22px;border-radius:26px}.sideFoot{display:none}}
+    @media(max-width:560px){.nav{grid-template-columns:1fr}.mini{grid-template-columns:1fr}.actions .btn{width:100%}.side{padding:18px}.kpi .value{font-size:24px}}
+  </style>
+</head>
+<body>
+  <div class="login" id="loginScreen">
+    <div class="loginBox">
+      <div class="loginLogo">SFM</div>
+      <h1>Supplier Dashboard</h1>
+      <p>Enter the dashboard password to view supplier purchases, invoices, goods and DZD totals.</p>
+      <input id="passwordInput" type="password" placeholder="Password" autocomplete="current-password" />
+      <button class="btn" style="width:100%" onclick="unlock()">Open dashboard</button>
+      <div class="error" id="loginError"></div>
+      <p class="tiny">Default password: <b>SFM2025</b></p>
+    </div>
+  </div>
+  <div class="app" id="app" style="display:none">
+    <aside class="side">
+      <div class="brand"><div class="logo">SFM</div><div><h2>Purchases 2025</h2><span>Supplier control dashboard</span></div></div>
+      <label class="fieldLabel">Search supplier, invoice or product</label><input class="input" id="searchInput" placeholder="Search..." />
+      <label class="fieldLabel">Supplier filter</label><select class="select" id="supplierFilter"></select>
+      <label class="fieldLabel">Currency filter</label><select class="select" id="currencyFilter"><option>All</option><option>EUR</option><option>USD</option></select>
+      <div class="nav">
+        <button class="active" data-page="dashboard"><span class="dot"></span>Dashboard</button>
+        <button data-page="suppliers"><span class="dot"></span>Suppliers</button>
+        <button data-page="goods"><span class="dot"></span>Goods bought</button>
+        <button data-page="invoices"><span class="dot"></span>Invoices</button>
+      </div>
+      <div class="sideFoot"><b>Rate used</b><br>Bank of Algeria commercial opening rate<br>USD 132.7380 DZD • EUR 154.4407 DZD<br>19-05-2026</div>
+    </aside>
+    <main>
+      <section class="hero">
+        <div class="heroTop"><div><div class="eyebrow">SFM purchasing dashboard</div><h1>Supplier purchases with DZD control</h1><p>Identify every supplier, what was bought from them, original invoice currency, freight, FOB and converted total in Algerian dinars.</p></div><div class="chip">Password protected • Domain ready</div></div>
+        <div class="actions"><button class="btn" onclick="showPage('suppliers')">View suppliers</button><button class="btn secondary" onclick="showPage('goods')">View goods</button><button class="btn secondary" onclick="logout()">Lock</button></div>
+      </section>
+      <section id="dashboard" class="page active">
+        <div class="grid kpis">
+          <div class="card kpi"><div class="label">Total amount in DZD</div><div class="value accent" id="kpiDZD"></div><div class="hint" id="kpiOriginal"></div></div>
+          <div class="card kpi"><div class="label">Suppliers</div><div class="value" id="kpiSuppliers"></div><div class="hint">Imported suppliers</div></div>
+          <div class="card kpi"><div class="label">Invoices</div><div class="value" id="kpiInvoices"></div><div class="hint">Unique invoice totals</div></div>
+          <div class="card kpi"><div class="label">Goods lines</div><div class="value" id="kpiProducts"></div><div class="hint">Grouped products</div></div>
+        </div>
+        <div class="grid dashboard">
+          <div class="card"><div class="sectionTitle"><h3>Top suppliers by DZD total</h3><span class="tiny">Converted by invoice currency</span></div><div class="bars" id="topBars"></div></div>
+          <div class="card"><div class="sectionTitle"><h3>Currency split</h3><span class="tiny">Original totals</span></div><div class="donutWrap"><div class="donut" id="donut"><div class="donutCenter"><div><b id="donutCenter"></b><br><span>EUR / USD</span></div></div></div></div></div>
+        </div>
+        <div class="grid supplierCards" id="supplierCards"></div>
+      </section>
+      <section id="suppliers" class="page"><div class="card"><div class="toolbar"><div><h3 class="sectionTitle"><span>Suppliers summary</span></h3><div class="tiny">Click a supplier card from dashboard to filter.</div></div><button class="btn" onclick="downloadCSV('suppliers')">Export CSV</button></div><div class="tableWrap"><table id="suppliersTable"></table></div></div></section>
+      <section id="goods" class="page"><div class="card"><div class="toolbar"><div><h3 class="sectionTitle"><span>Goods bought</span></h3><div class="tiny">Products grouped by supplier.</div></div><button class="btn" onclick="downloadCSV('products')">Export CSV</button></div><div class="tableWrap"><table id="productsTable"></table></div></div></section>
+      <section id="invoices" class="page"><div class="card"><div class="toolbar"><div><h3 class="sectionTitle"><span>Invoices</span></h3><div class="tiny">Each invoice counted one time.</div></div><button class="btn" onclick="downloadCSV('invoices')">Export CSV</button></div><div class="tableWrap"><table id="invoicesTable"></table></div></div></section>
+      <div class="footer">SFM Supplier Purchases Dashboard • Built from dossier achat 2025 par fournisseur</div>
+    </main>
+  </div>
+  <script src="data.js"></script>
+  <script>
+    const PASSWORD = 'SFM2025';
+    const RATES = { USD:132.7380, EUR:154.4407 };
+    const RATE_DATE = '19-05-2026';
+    let data = window.PURCHASE_DATA || {suppliers:[],products:[],invoices:[],metadata:{}};
+    let state = {page:'dashboard',supplier:'All',currency:'All',search:''};
+    const el = id => document.getElementById(id);
+    const fmt = n => (Number(n)||0).toLocaleString(undefined,{maximumFractionDigits:2});
+    const dzd = n => fmt(n)+' DZD';
+    const money = (n,c) => fmt(n)+' '+c;
+    const clsCurrency = c => (c||'').toLowerCase();
+    function toDZD(amount,currency){ return (Number(amount)||0)*(RATES[currency]||0); }
+    function moneyBreakdown(obj){ const e=Object.entries(obj||{}).filter(([,v])=>Math.abs(v||0)>0.000001); return e.length?e.map(([c,v])=>money(v,c)).join(' + '):'0'; }
+    function originalForInvoiceList(list){ const out={}; list.forEach(i=>{const c=i.currency||'USD'; out[c]=(out[c]||0)+(Number(i.total_amount)||0)}); return out; }
+    function totalDZDInvoiceList(list){ return list.reduce((s,i)=>s+toDZD(i.total_amount,i.currency||'USD'),0); }
+    function supplierDZD(s){ const obj=s.totals_by_currency||{[s.currency||'USD']:s.total_amount}; return Object.entries(obj).reduce((sum,[c,v])=>sum+toDZD(v,c),0); }
+    function supplierOriginal(s){ return moneyBreakdown(s.totals_by_currency||{[s.currency||'USD']:s.total_amount}); }
+    function freightOriginal(s){ return moneyBreakdown(s.freight_by_currency||{[s.currency||'USD']:s.freight}); }
+    function fobOriginal(s){ return moneyBreakdown(s.fob_by_currency||{[s.currency||'USD']:s.total_fob}); }
+    function matchSearch(values){ const q=state.search.toLowerCase().trim(); return !q || values.join(' ').toLowerCase().includes(q); }
+    function matchesCurrencyFromObj(obj){ if(state.currency==='All') return true; return Object.keys(obj||{}).includes(state.currency); }
+    function currentInvoices(){ return data.invoices.filter(i => (state.supplier==='All'||i.supplier===state.supplier) && (state.currency==='All'||(i.currency||'USD')===state.currency) && matchSearch([i.supplier,i.invoice,i.currency,(i.products||[]).join(' '),i.date||''])); }
+    function currentProducts(){ return data.products.filter(p => (state.supplier==='All'||p.supplier===state.supplier) && matchSearch([p.supplier,p.product,p.uom])); }
+    function currentSuppliers(){ return data.suppliers.filter(s => (state.supplier==='All'||s.supplier===state.supplier) && matchesCurrencyFromObj(s.totals_by_currency||{[s.currency||'USD']:s.total_amount}) && matchSearch([s.supplier,(s.currencies||[]).join(' ')])); }
+    function unlock(){ if(el('passwordInput').value===PASSWORD){ sessionStorage.setItem('sfm_ok','1'); el('loginScreen').style.display='none'; el('app').style.display='grid'; init(); } else { el('loginError').textContent='Wrong password. Try again.'; } }
+    function logout(){ sessionStorage.removeItem('sfm_ok'); location.reload(); }
+    function init(){ fillFilters(); bind(); renderAll(); }
+    function fillFilters(){ const sel=el('supplierFilter'); sel.innerHTML='<option>All</option>'+data.suppliers.map(s=>`<option>${escapeHtml(s.supplier)}</option>`).join(''); }
+    function bind(){ el('searchInput').oninput=e=>{state.search=e.target.value;renderAll()}; el('supplierFilter').onchange=e=>{state.supplier=e.target.value;renderAll()}; el('currencyFilter').onchange=e=>{state.currency=e.target.value;renderAll()}; document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>showPage(b.dataset.page)); el('passwordInput').addEventListener('keydown', e => { if(e.key==='Enter') unlock(); }); }
+    function showPage(page){ state.page=page; document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===page)); document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page)); window.scrollTo({top:0,behavior:'smooth'}); }
+    function filterSupplier(name){ state.supplier=name; el('supplierFilter').value=name; showPage('goods'); renderAll(); }
+    function renderAll(){ renderKPIs(); renderBars(); renderCards(); renderTables(); }
+    function renderKPIs(){ const inv=currentInvoices(); const original=originalForInvoiceList(inv); const tDZD=totalDZDInvoiceList(inv); const supCount=new Set(inv.map(i=>i.supplier)).size; el('kpiDZD').textContent=dzd(tDZD); el('kpiOriginal').textContent='('+moneyBreakdown(original)+')'; el('kpiSuppliers').textContent=supCount; el('kpiInvoices').textContent=inv.length; el('kpiProducts').textContent=currentProducts().length; el('donutCenter').innerHTML=moneyBreakdown(original).replace(' + ','<br>'); }
+    function renderBars(){ const inv=currentInvoices(); const groups={}; inv.forEach(i=>{groups[i.supplier]=(groups[i.supplier]||0)+toDZD(i.total_amount,i.currency||'USD')}); const rows=Object.entries(groups).map(([name,val])=>({name,val})).sort((a,b)=>b.val-a.val); const max=rows[0]?.val||1; el('topBars').innerHTML=rows.map(r=>`<div class="barRow"><div class="barName">${escapeHtml(r.name)}</div><div class="barTrack"><div class="barFill" style="width:${Math.max(2,r.val/max*100)}%"></div></div><div class="barValue">${dzd(r.val)}</div></div>`).join('')||'<div class="tiny">No results</div>'; }
+    function renderCards(){ const list=currentSuppliers().sort((a,b)=>supplierDZD(b)-supplierDZD(a)); el('supplierCards').innerHTML=list.map(s=>`<div class="card supplierCard" onclick="filterSupplier('${jsSafe(s.supplier)}')"><h3>${escapeHtml(s.supplier)}</h3><div class="amount">${dzd(supplierDZD(s))}</div><div class="bracket">(${supplierOriginal(s)})</div><div class="mini"><div><span>Currency</span><b>${(s.currencies||[s.currency]).map(c=>`<span class="badge ${clsCurrency(c)}">${c}</span>`).join(' ')}</b></div><div><span>Invoices</span><b>${s.invoice_count||0}</b></div><div><span>Goods</span><b>${s.product_count||0}</b></div><div><span>Freight</span><b>${freightOriginal(s)}</b></div></div></div>`).join('')||'<div class="card">No supplier found.</div>'; }
+    function table(id, headers, rows){ el(id).innerHTML='<thead><tr>'+headers.map(h=>`<th>${h}</th>`).join('')+'</tr></thead><tbody>'+rows.join('')+'</tbody>'; }
+    function renderTables(){
+      table('suppliersTable',['Supplier','DZD total','Original total','FOB','Freight','FCL','Invoices','Goods'], currentSuppliers().sort((a,b)=>supplierDZD(b)-supplierDZD(a)).map(s=>`<tr><td><span class="badge">${escapeHtml(s.supplier)}</span></td><td class="num"><b>${dzd(supplierDZD(s))}</b></td><td class="num">${supplierOriginal(s)}</td><td class="num">${fobOriginal(s)}</td><td class="num">${freightOriginal(s)}</td><td class="num">${fmt(s.fcl)}</td><td class="num">${s.invoice_count||0}</td><td class="num">${s.product_count||0}</td></tr>`));
+      table('productsTable',['Supplier','Product / goods bought','UOM','Quantity','Invoices','Average rate'], currentProducts().map(p=>`<tr><td>${escapeHtml(p.supplier)}</td><td class="productText">${escapeHtml(p.product)}</td><td>${escapeHtml(p.uom||'')}</td><td class="num">${fmt(p.quantity)}</td><td class="num">${p.invoice_count||0}</td><td class="num">${fmt(p.avg_rate)}</td></tr>`));
+      table('invoicesTable',['Supplier','Invoice','Date','Currency','DZD total','Original total','FOB','Freight','FCL','Products'], currentInvoices().sort((a,b)=>a.supplier.localeCompare(b.supplier)||String(a.invoice).localeCompare(String(b.invoice))).map(i=>`<tr><td>${escapeHtml(i.supplier)}</td><td><span class="badge">${escapeHtml(i.invoice)}</span></td><td>${escapeHtml(i.date||'')}</td><td><span class="badge ${clsCurrency(i.currency)}">${i.currency||''}</span></td><td class="num"><b>${dzd(toDZD(i.total_amount,i.currency||'USD'))}</b></td><td class="num">${money(i.total_amount,i.currency||'USD')}</td><td class="num">${money(i.total_fob||0,i.currency||'USD')}</td><td class="num">${money(i.freight||0,i.currency||'USD')}</td><td class="num">${fmt(i.fcl)}</td><td class="productText">${escapeHtml((i.products||[]).join(', '))}</td></tr>`));
+    }
+    function downloadCSV(type){ let rows=[]; if(type==='suppliers'){ rows=[['Supplier','DZD Total','Original Total','FOB','Freight','Invoices','Goods'],...currentSuppliers().map(s=>[s.supplier,supplierDZD(s),supplierOriginal(s),fobOriginal(s),freightOriginal(s),s.invoice_count,s.product_count])]; } if(type==='products'){ rows=[['Supplier','Product','UOM','Quantity','Invoices','Average Rate'],...currentProducts().map(p=>[p.supplier,p.product,p.uom,p.quantity,p.invoice_count,p.avg_rate])]; } if(type==='invoices'){ rows=[['Supplier','Invoice','Date','Currency','DZD Total','Original Total','FOB','Freight','FCL','Products'],...currentInvoices().map(i=>[i.supplier,i.invoice,i.date,i.currency,toDZD(i.total_amount,i.currency||'USD'),i.total_amount,i.total_fob,i.freight,i.fcl,(i.products||[]).join(' | ')])]; } const csv=rows.map(r=>r.map(v=>'"'+String(v??'').replaceAll('"','""')+'"').join(',')).join('\n'); const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='sfm_'+type+'.csv'; a.click(); URL.revokeObjectURL(a.href); }
+    function escapeHtml(str){ return String(str??'').replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m])); }
+    function jsSafe(str){ return String(str??'').replace(/\\/g,'\\\\').replace(/'/g,"\\'"); }
+    if(sessionStorage.getItem('sfm_ok')==='1'){ el('loginScreen').style.display='none'; el('app').style.display='grid'; init(); }
+  </script>
+</body>
+</html>
