@@ -6,25 +6,26 @@
   <title>SFM Supplier Purchases Dashboard 2025</title>
   <style>
     :root{
-      --bg0:#060b14;--bg1:#081525;--bg2:#0d1d33;--panel:rgba(13,26,46,.72);--panel2:rgba(255,255,255,.065);
-      --text:#edf6ff;--muted:#91a4bd;--line:rgba(255,255,255,.12);--teal:#43e7d4;--blue:#7da2ff;--gold:#ffcd67;--red:#ff7185;--green:#57e389;
-      --shadow:0 22px 70px rgba(0,0,0,.38);--radius:24px;
+      --bg0:#0b3761;--bg1:#15588c;--bg2:#dceeff;--panel:rgba(255,255,255,.9);--panel2:rgba(12,52,86,.08);
+      --text:#102c44;--muted:#607789;--line:rgba(15,72,116,.18);--teal:#1d78b8;--blue:#0f5f9d;--gold:#f0ad3d;--red:#f0ad3d;--green:#249b6b;
+      --shadow:0 18px 46px rgba(11,55,97,.22);--radius:14px;
     }
     *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:var(--bg0);min-height:100vh;}
-    body:before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 10% 0%,rgba(67,231,212,.25),transparent 34%),radial-gradient(circle at 85% 8%,rgba(125,162,255,.24),transparent 34%),linear-gradient(135deg,var(--bg0),var(--bg1) 48%,#06101d);z-index:-2}
-    body:after{content:"";position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.028) 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.9),transparent 84%);z-index:-1;pointer-events:none}
-    .login{position:fixed;inset:0;display:grid;place-items:center;padding:20px;background:radial-gradient(circle at top left,rgba(67,231,212,.26),transparent 38%),rgba(3,7,13,.94);z-index:20}
-    .loginBox{width:min(430px,100%);background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.055));border:1px solid var(--line);border-radius:30px;box-shadow:var(--shadow);padding:28px;backdrop-filter:blur(18px)}
-    .loginLogo{width:62px;height:62px;border-radius:20px;background:linear-gradient(135deg,var(--teal),var(--blue));display:grid;place-items:center;color:#06111d;font-weight:950;font-size:21px;margin-bottom:16px}.login h1{font-size:28px;margin:0 0 8px}.login p{color:var(--muted);line-height:1.55}.login input{width:100%;border:1px solid var(--line);background:rgba(0,0,0,.22);color:var(--text);border-radius:16px;padding:15px;margin:8px 0 12px;outline:0;font-size:16px}.login .error{color:#ff9ca9;min-height:22px;font-size:13px}
-    .app{display:grid;grid-template-columns:294px minmax(0,1fr);min-height:100vh}.side{position:sticky;top:0;height:100vh;padding:26px 18px;background:rgba(3,9,18,.68);border-right:1px solid var(--line);backdrop-filter:blur(18px);overflow:auto}.brand{display:flex;gap:13px;align-items:center;margin-bottom:24px}.logo{width:52px;height:52px;border-radius:18px;background:linear-gradient(135deg,var(--teal),var(--blue));display:grid;place-items:center;color:#07121e;font-weight:950;box-shadow:0 0 44px rgba(67,231,212,.22)}.brand h2{margin:0;font-size:16px}.brand span{display:block;color:var(--muted);font-size:12px;margin-top:4px}
-    .fieldLabel{font-size:12px;color:var(--muted);display:block;margin:15px 0 7px}.input,.select{width:100%;border:1px solid var(--line);background:rgba(255,255,255,.065);color:var(--text);border-radius:16px;padding:12px 13px;outline:none}.select option{background:#0f1b2f}.nav{margin-top:18px;display:grid;gap:8px}.nav button{display:flex;gap:10px;align-items:center;width:100%;padding:12px;border:0;border-radius:16px;background:transparent;color:var(--muted);cursor:pointer;text-align:left}.nav button:hover,.nav button.active{background:linear-gradient(90deg,rgba(67,231,212,.14),rgba(125,162,255,.08));color:var(--text)}.dot{width:8px;height:8px;border-radius:99px;background:currentColor}.sideFoot{margin-top:22px;border:1px solid var(--line);background:rgba(255,255,255,.045);border-radius:18px;padding:14px;color:var(--muted);font-size:12px;line-height:1.5}
-    main{padding:28px;min-width:0}.hero{position:relative;overflow:hidden;border:1px solid var(--line);background:linear-gradient(135deg,rgba(67,231,212,.13),rgba(125,162,255,.1) 40%,rgba(255,255,255,.045));border-radius:32px;padding:26px;margin-bottom:18px;box-shadow:var(--shadow)}.hero:after{content:"";position:absolute;right:-80px;top:-80px;width:260px;height:260px;border-radius:50%;background:rgba(67,231,212,.18);filter:blur(4px)}.heroTop{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;position:relative;z-index:1}.eyebrow{color:var(--teal);font-weight:800;font-size:12px;letter-spacing:.16em;text-transform:uppercase}.hero h1{font-size:clamp(30px,4vw,54px);line-height:1;margin:10px 0}.hero p{max-width:760px;color:#c3d0e3;line-height:1.65;margin:0}.chip{border:1px solid var(--line);border-radius:999px;padding:10px 14px;background:rgba(3,9,18,.42);color:#cfd9e8;white-space:nowrap}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.btn{border:0;border-radius:15px;padding:12px 15px;font-weight:850;cursor:pointer;background:linear-gradient(135deg,var(--teal),var(--blue));color:#06111d}.btn.secondary{background:rgba(255,255,255,.08);color:var(--text);border:1px solid var(--line)}
-    .grid{display:grid;gap:16px}.kpis{grid-template-columns:1.4fr repeat(3,1fr);margin-bottom:16px}.card{background:linear-gradient(180deg,rgba(255,255,255,.085),rgba(255,255,255,.04));border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;backdrop-filter:blur(16px)}.kpi .label{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.08em}.kpi .value{font-size:clamp(22px,2.6vw,38px);font-weight:950;margin-top:8px}.kpi .hint{color:var(--muted);font-size:12px;margin-top:7px}.accent{color:var(--teal)}.gold{color:var(--gold)}
-    .dashboard{grid-template-columns:1.3fr .85fr;margin-bottom:16px}.sectionTitle{display:flex;justify-content:space-between;gap:12px;align-items:center;margin:0 0 14px}.sectionTitle h3{margin:0;font-size:18px}.tiny{color:var(--muted);font-size:12px}.bars{display:grid;gap:12px}.barRow{display:grid;grid-template-columns:170px 1fr 140px;gap:12px;align-items:center}.barName{color:#c8d5e9;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}.barTrack{height:16px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden}.barFill{height:100%;background:linear-gradient(90deg,var(--teal),var(--blue));border-radius:99px}.barValue{text-align:right;font-weight:850}.donutWrap{display:grid;place-items:center;min-height:290px}.donut{width:228px;height:228px;border-radius:50%;position:relative;background:conic-gradient(var(--teal) 0 24%,var(--blue) 24% 47%,var(--gold) 47% 64%,var(--green) 64% 83%,var(--red) 83% 100%);box-shadow:inset 0 0 24px rgba(0,0,0,.18)}.donut:after{content:"";position:absolute;inset:38px;border-radius:50%;background:#0d1a2e}.donutCenter{position:absolute;inset:0;display:grid;place-items:center;text-align:center;z-index:2}.donutCenter b{font-size:20px}.donutCenter span{color:var(--muted);font-size:12px}
-    .supplierCards{grid-template-columns:repeat(auto-fit,minmax(250px,1fr));margin-bottom:16px}.supplierCard{cursor:pointer;transition:.18s}.supplierCard:hover{transform:translateY(-4px);border-color:rgba(67,231,212,.45)}.supplierCard h3{margin:0 0 10px}.amount{font-size:22px;font-weight:950;color:var(--teal)}.bracket{font-size:12px;color:#c6d5e8;margin-top:6px;line-height:1.4}.mini{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.mini div{background:rgba(0,0,0,.16);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:10px}.mini span{display:block;color:var(--muted);font-size:11px}.mini b{display:block;margin-top:4px}
-    .page{display:none}.page.active{display:block}.toolbar{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:14px;flex-wrap:wrap}.tabs{display:flex;gap:8px;flex-wrap:wrap}.badge{display:inline-block;padding:5px 9px;border-radius:999px;border:1px solid rgba(125,162,255,.35);background:rgba(125,162,255,.11);color:#d7e1ff;font-weight:750;font-size:12px}.badge.eur{border-color:rgba(67,231,212,.4);background:rgba(67,231,212,.12)}.badge.usd{border-color:rgba(255,205,103,.4);background:rgba(255,205,103,.12);color:#ffe5aa}.tableWrap{overflow:auto;border:1px solid var(--line);border-radius:20px;max-height:70vh}table{border-collapse:collapse;width:100%;min-width:1080px;background:rgba(2,8,18,.36)}th,td{padding:13px 14px;border-bottom:1px solid rgba(255,255,255,.08);text-align:left;font-size:13px;vertical-align:top}th{position:sticky;top:0;background:#0d1a2e;color:#dae7fa;z-index:2}tr:hover td{background:rgba(67,231,212,.045)}.num{text-align:right;font-variant-numeric:tabular-nums}.productText{max-width:560px}.footer{color:var(--muted);font-size:12px;text-align:center;padding:18px}
-    @media(max-width:980px){.app{grid-template-columns:1fr}.side{position:relative;height:auto}.nav{grid-template-columns:repeat(2,1fr)}main{padding:16px}.heroTop{display:block}.chip{display:inline-block;margin-top:14px}.kpis,.dashboard{grid-template-columns:1fr}.barRow{grid-template-columns:1fr}.barValue{text-align:left}.tableWrap{max-height:none}.hero{padding:22px;border-radius:26px}.sideFoot{display:none}}
-    @media(max-width:560px){.nav{grid-template-columns:1fr}.mini{grid-template-columns:1fr}.actions .btn{width:100%}.side{padding:18px}.kpi .value{font-size:24px}}
+    body:before{content:"";position:fixed;inset:0;background:linear-gradient(145deg,#0b3761 0%,#15588c 46%,#dceeff 100%);z-index:-2}
+    body:after{content:"";position:fixed;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.22),rgba(255,255,255,0) 42%),radial-gradient(circle at 14% 10%,rgba(78,167,230,.32),transparent 30%),radial-gradient(circle at 88% 8%,rgba(240,173,61,.24),transparent 28%),radial-gradient(circle at 68% 88%,rgba(240,173,61,.16),transparent 34%);z-index:-1;pointer-events:none}
+    .login{position:fixed;inset:0;display:grid;place-items:center;padding:20px;background:linear-gradient(145deg,rgba(11,55,97,.96),rgba(21,88,140,.94) 55%,rgba(220,238,255,.92));z-index:20}
+    .loginBox{width:min(430px,100%);background:var(--panel);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:28px;backdrop-filter:blur(18px)}
+    .loginLogo{width:62px;height:62px;border-radius:14px;background:linear-gradient(135deg,var(--blue),var(--gold));display:grid;place-items:center;color:#fff;font-weight:950;font-size:21px;margin-bottom:16px}.login h1{font-size:28px;margin:0 0 8px}.login p{color:var(--muted);line-height:1.55}.login input{width:100%;border:1px solid var(--line);background:#fff;color:var(--text);border-radius:10px;padding:15px;margin:8px 0 12px;outline:0;font-size:16px}.login .error{color:#b86d00;min-height:22px;font-size:13px}
+    .app{display:grid;grid-template-columns:294px minmax(0,1fr);min-height:100vh}.side{position:sticky;top:0;height:100vh;padding:26px 18px;background:rgba(227,241,252,.86);border-right:1px solid var(--line);backdrop-filter:blur(22px);overflow:auto}.brand{display:flex;gap:13px;align-items:center;margin-bottom:24px}.logo{width:52px;height:52px;border-radius:12px;background:linear-gradient(135deg,var(--blue),var(--gold));display:grid;place-items:center;color:#fff;font-weight:950;box-shadow:0 12px 26px rgba(15,95,157,.24)}.brand h2{margin:0;font-size:16px}.brand span{display:block;color:var(--muted);font-size:12px;margin-top:4px}
+    .fieldLabel{font-size:12px;color:var(--muted);display:block;margin:15px 0 7px}.input,.select,textarea{width:100%;border:1px solid var(--line);background:#fff;color:var(--text);border-radius:10px;padding:12px 13px;outline:none}.select option{background:#fff}.nav{margin-top:18px;display:grid;gap:8px}.nav button{display:flex;gap:10px;align-items:center;width:100%;padding:12px;border:0;border-radius:10px;background:transparent;color:var(--muted);cursor:pointer;text-align:left}.nav button:hover,.nav button.active{background:linear-gradient(90deg,rgba(15,95,157,.18),rgba(240,173,61,.18));color:var(--text)}.dot{width:8px;height:8px;border-radius:99px;background:var(--gold)}.sideFoot{margin-top:22px;border:1px solid var(--line);background:#fff;border-radius:12px;padding:14px;color:var(--muted);font-size:12px;line-height:1.5}
+    main{padding:28px;min-width:0}.hero{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.78);background:linear-gradient(135deg,rgba(227,241,252,.94),rgba(185,218,242,.92) 48%,rgba(255,245,224,.9));border-radius:18px;padding:26px;margin-bottom:18px;box-shadow:var(--shadow)}.heroTop{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;position:relative;z-index:1}.eyebrow{color:#b86d00;font-weight:800;font-size:12px;letter-spacing:.12em;text-transform:uppercase}.hero h1{font-size:clamp(30px,4vw,54px);line-height:1;margin:10px 0}.hero p{max-width:760px;color:#345367;line-height:1.65;margin:0}.chip{border:1px solid rgba(240,173,61,.34);border-radius:999px;padding:10px 14px;background:rgba(255,255,255,.78);color:#465568;white-space:nowrap}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.btn{border:0;border-radius:10px;padding:12px 15px;font-weight:850;cursor:pointer;background:linear-gradient(135deg,var(--blue),var(--gold));color:#fff;box-shadow:0 10px 24px rgba(15,95,157,.2)}.btn.secondary{background:rgba(255,255,255,.78);color:var(--text);border:1px solid var(--line);box-shadow:none}
+    .grid{display:grid;gap:16px}.kpis{grid-template-columns:1.4fr repeat(3,1fr);margin-bottom:16px}.card{background:var(--panel);border:1px solid rgba(255,255,255,.78);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;backdrop-filter:blur(18px)}.kpi .label{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.08em}.kpi .value{font-size:clamp(22px,2.6vw,38px);font-weight:950;margin-top:8px}.kpi .hint{color:var(--muted);font-size:12px;margin-top:7px}.accent{color:var(--teal)}.gold{color:var(--gold)}
+    .dashboard{grid-template-columns:1.3fr .85fr;margin-bottom:16px}.sectionTitle{display:flex;justify-content:space-between;gap:12px;align-items:center;margin:0 0 14px}.sectionTitle h3{margin:0;font-size:18px}.tiny{color:var(--muted);font-size:12px}.bars{display:grid;gap:12px}.barRow{display:grid;grid-template-columns:170px 1fr 140px;gap:12px;align-items:center}.barName{color:#405367;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}.barTrack{height:16px;background:rgba(18,33,47,.08);border-radius:99px;overflow:hidden}.barFill{height:100%;background:linear-gradient(90deg,var(--teal),var(--blue));border-radius:99px}.barValue{text-align:right;font-weight:850}.donutWrap{display:grid;place-items:center;min-height:290px}.donut{width:228px;height:228px;border-radius:50%;position:relative;background:conic-gradient(var(--teal) 0 24%,var(--blue) 24% 47%,var(--gold) 47% 64%,var(--green) 64% 83%,var(--red) 83% 100%);box-shadow:inset 0 0 24px rgba(0,0,0,.08)}.donut:after{content:"";position:absolute;inset:38px;border-radius:50%;background:#fff}.donutCenter{position:absolute;inset:0;display:grid;place-items:center;text-align:center;z-index:2}.donutCenter b{font-size:20px}.donutCenter span{color:var(--muted);font-size:12px}
+    .supplierCards{grid-template-columns:repeat(auto-fit,minmax(250px,1fr));margin-bottom:16px}.supplierCard{cursor:pointer;transition:.18s}.supplierCard:hover{transform:translateY(-4px);border-color:rgba(240,173,61,.48)}.supplierCard h3{margin:0 0 10px}.amount{font-size:22px;font-weight:950;color:var(--blue)}.bracket{font-size:12px;color:#5e7082;margin-top:6px;line-height:1.4}.mini{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.mini div{background:rgba(15,95,157,.08);border:1px solid rgba(18,92,132,.08);border-radius:10px;padding:10px}.mini span{display:block;color:var(--muted);font-size:11px}.mini b{display:block;margin-top:4px}
+    .page{display:none}.page.active{display:block}.toolbar{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:14px;flex-wrap:wrap}.tabs{display:flex;gap:8px;flex-wrap:wrap}.badge{display:inline-block;padding:5px 9px;border-radius:999px;border:1px solid rgba(79,114,217,.35);background:rgba(79,114,217,.1);color:#254aab;font-weight:750;font-size:12px}.badge.eur{border-color:rgba(14,169,154,.35);background:rgba(14,169,154,.11);color:#08786e}.badge.usd{border-color:rgba(201,135,24,.35);background:rgba(201,135,24,.11);color:#875807}.tableWrap{overflow:auto;border:1px solid var(--line);border-radius:12px;max-height:70vh}table{border-collapse:collapse;width:100%;min-width:1080px;background:#fff}th,td{padding:13px 14px;border-bottom:1px solid rgba(18,33,47,.08);text-align:left;font-size:13px;vertical-align:top}th{position:sticky;top:0;background:#eef4f7;color:#263748;z-index:2}tr:hover td{background:rgba(14,169,154,.045)}.num{text-align:right;font-variant-numeric:tabular-nums}.productText{max-width:560px}.footer{color:var(--muted);font-size:12px;text-align:center;padding:18px}
+    .formGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.formGrid .wide{grid-column:span 2}.formGrid .full{grid-column:1/-1}.formActions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.status{min-height:20px;color:var(--green);font-size:13px;margin-top:10px}.productEditor{display:grid;gap:10px}.productLine{display:grid;grid-template-columns:1.4fr .7fr .7fr .7fr auto;gap:10px;align-items:center}.iconBtn{width:40px;height:40px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--text);cursor:pointer}.danger{color:var(--red)}.mutedBox{background:rgba(18,33,47,.04);border:1px solid var(--line);border-radius:12px;padding:14px;color:var(--muted);font-size:13px;line-height:1.5}.smallTable{min-width:860px}.photoPreview{display:none;max-width:220px;max-height:160px;border:1px solid var(--line);border-radius:10px;margin-top:10px;object-fit:cover}.photoLink{color:var(--blue);font-weight:800;text-decoration:none}
+    @media(max-width:980px){.app{grid-template-columns:1fr}.side{position:relative;height:auto}.nav{grid-template-columns:repeat(2,1fr)}main{padding:16px}.heroTop{display:block}.chip{display:inline-block;margin-top:14px}.kpis,.dashboard,.formGrid{grid-template-columns:1fr}.formGrid .wide{grid-column:1}.barRow{grid-template-columns:1fr}.barValue{text-align:left}.tableWrap{max-height:none}.hero{padding:22px}.sideFoot{display:none}.productLine{grid-template-columns:1fr 1fr}.productLine .iconBtn{width:100%}}
+    @media(max-width:560px){.nav{grid-template-columns:1fr}.mini{grid-template-columns:1fr}.actions .btn{width:100%}.side{padding:18px}.kpi .value{font-size:24px}.productLine{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
@@ -50,13 +51,14 @@
         <button data-page="suppliers"><span class="dot"></span>Suppliers</button>
         <button data-page="goods"><span class="dot"></span>Goods bought</button>
         <button data-page="invoices"><span class="dot"></span>Invoices</button>
+        <button data-page="manage"><span class="dot"></span>Add invoice</button>
       </div>
-      <div class="sideFoot"><b>Rate used</b><br>Bank of Algeria commercial opening rate<br>USD 132.7380 DZD • EUR 154.4407 DZD<br>19-05-2026</div>
+      <div class="sideFoot"><b>Rate used</b><br>Bank of Algeria commercial opening rate<br>USD 132.7380 DZD / EUR 154.4407 DZD<br>19-05-2026</div>
     </aside>
     <main>
       <section class="hero">
-        <div class="heroTop"><div><div class="eyebrow">SFM purchasing dashboard</div><h1>Supplier purchases with DZD control</h1><p>Identify every supplier, what was bought from them, original invoice currency, freight, FOB and converted total in Algerian dinars.</p></div><div class="chip">Password protected • Domain ready</div></div>
-        <div class="actions"><button class="btn" onclick="showPage('suppliers')">View suppliers</button><button class="btn secondary" onclick="showPage('goods')">View goods</button><button class="btn secondary" onclick="logout()">Lock</button></div>
+        <div class="heroTop"><div><div class="eyebrow">SFM purchasing dashboard</div><h1>Supplier purchases with DZD control</h1><p>Identify every supplier, what was bought from them, original invoice currency, freight, FOB and converted total in Algerian dinars.</p></div><div class="chip">Password protected / GitHub Pages ready</div></div>
+        <div class="actions"><button class="btn" onclick="showPage('manage')">Add invoice</button><button class="btn secondary" onclick="showPage('suppliers')">View suppliers</button><button class="btn secondary" onclick="showPage('goods')">View goods</button><button class="btn secondary" onclick="logout()">Lock</button></div>
       </section>
       <section id="dashboard" class="page active">
         <div class="grid kpis">
@@ -74,7 +76,50 @@
       <section id="suppliers" class="page"><div class="card"><div class="toolbar"><div><h3 class="sectionTitle"><span>Suppliers summary</span></h3><div class="tiny">Click a supplier card from dashboard to filter.</div></div><button class="btn" onclick="downloadCSV('suppliers')">Export CSV</button></div><div class="tableWrap"><table id="suppliersTable"></table></div></div></section>
       <section id="goods" class="page"><div class="card"><div class="toolbar"><div><h3 class="sectionTitle"><span>Goods bought</span></h3><div class="tiny">Products grouped by supplier.</div></div><button class="btn" onclick="downloadCSV('products')">Export CSV</button></div><div class="tableWrap"><table id="productsTable"></table></div></div></section>
       <section id="invoices" class="page"><div class="card"><div class="toolbar"><div><h3 class="sectionTitle"><span>Invoices</span></h3><div class="tiny">Each invoice counted one time.</div></div><button class="btn" onclick="downloadCSV('invoices')">Export CSV</button></div><div class="tableWrap"><table id="invoicesTable"></table></div></div></section>
-      <div class="footer">SFM Supplier Purchases Dashboard • Built from dossier achat 2025 par fournisseur</div>
+      <section id="manage" class="page">
+        <div class="grid dashboard">
+          <div class="card">
+            <div class="sectionTitle"><h3>Add new invoice</h3><span class="tiny">Saved in this browser</span></div>
+            <form id="invoiceForm">
+              <div class="formGrid">
+                <label>Supplier<input class="input" id="formSupplier" list="supplierNames" required placeholder="Supplier name"></label>
+                <label>Invoice<input class="input" id="formInvoice" required placeholder="Invoice number"></label>
+                <label>Date<input class="input" id="formDate" type="date"></label>
+                <label>Invoice year<select class="select" id="formYear"><option>Invoice 2026</option><option>Invoice 2025</option><option>Invoice 2024</option></select></label>
+                <label>Currency<select class="select" id="formCurrency"><option>USD</option><option>EUR</option></select></label>
+                <label>Total amount<input class="input" id="formTotal" type="number" step="0.01" min="0" required></label>
+                <label>FOB<input class="input" id="formFob" type="number" step="0.01" min="0"></label>
+                <label>Freight<input class="input" id="formFreight" type="number" step="0.01" min="0"></label>
+                <label>FCL<input class="input" id="formFcl" type="number" step="0.01" min="0"></label>
+                <label class="wide">Invoice picture<input class="input" id="formPhoto" type="file" accept="image/*" capture="environment"><img id="photoPreview" class="photoPreview" alt="Invoice preview"></label>
+                <div class="full">
+                  <div class="sectionTitle"><h3>Products</h3><button class="btn secondary" type="button" onclick="addProductLine()">Add product line</button></div>
+                  <div class="productEditor" id="productLines"></div>
+                </div>
+              </div>
+              <div class="formActions">
+                <button class="btn" type="submit">Save invoice</button>
+                <button class="btn secondary" type="button" onclick="clearInvoiceForm()">Clear form</button>
+              </div>
+              <div class="status" id="formStatus"></div>
+            </form>
+            <datalist id="supplierNames"></datalist>
+          </div>
+          <div class="card">
+            <div class="sectionTitle"><h3>Publish changes</h3><span class="tiny" id="localCount">0 local invoices</span></div>
+            <div class="mutedBox">Invoices added here update the dashboard immediately on this browser. To make them permanent on GitHub Pages, export the updated data file and replace the repository's data.js with it.</div>
+            <div class="formActions">
+              <button class="btn" onclick="downloadDataJS()">Export updated data.js</button>
+              <button class="btn secondary danger" onclick="resetLocalInvoices()">Clear local invoices</button>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="sectionTitle"><h3>Inserted invoices</h3><span class="tiny">Local browser entries</span></div>
+          <div class="tableWrap"><table id="localInvoicesTable" class="smallTable"></table></div>
+        </div>
+      </section>
+      <div class="footer">SFM Supplier Purchases Dashboard / Built from dossier achat 2025 par fournisseur</div>
     </main>
   </div>
   <script src="data.js"></script>
@@ -82,7 +127,10 @@
     const PASSWORD = 'SFM2025';
     const RATES = { USD:132.7380, EUR:154.4407 };
     const RATE_DATE = '19-05-2026';
-    let data = window.PURCHASE_DATA || {suppliers:[],products:[],invoices:[],metadata:{}};
+    const STORAGE_KEY = 'sfm_custom_invoices_v1';
+    const baseData = JSON.parse(JSON.stringify(window.PURCHASE_DATA || {suppliers:[],products:[],invoices:[],metadata:{}}));
+    let customInvoices = loadCustomInvoices();
+    let data = hydrateData();
     let state = {page:'dashboard',supplier:'All',currency:'All',search:''};
     const el = id => document.getElementById(id);
     const fmt = n => (Number(n)||0).toLocaleString(undefined,{maximumFractionDigits:2});
@@ -90,6 +138,89 @@
     const money = (n,c) => fmt(n)+' '+c;
     const clsCurrency = c => (c||'').toLowerCase();
     function toDZD(amount,currency){ return (Number(amount)||0)*(RATES[currency]||0); }
+    function fromNum(value){ const n=Number(value); return Number.isFinite(n) ? n : 0; }
+    function parseDateForDisplay(value){ if(!value) return ''; const [y,m,d]=String(value).split('-'); return y&&m&&d ? `${d}/${m}/${y}` : value; }
+    function yearFromInvoice(inv){ return inv.year || (inv.date ? `Invoice ${String(inv.date).slice(-4)}` : 'Invoice 2026'); }
+    function readFileAsDataURL(file){
+      return new Promise((resolve,reject)=>{
+        if(!file){ resolve(''); return; }
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result || '');
+        reader.onerror = () => reject(reader.error);
+        reader.readAsDataURL(file);
+      });
+    }
+    function loadCustomInvoices(){ try { return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]'); } catch { return []; } }
+    function saveCustomInvoices(){ try { localStorage.setItem(STORAGE_KEY, JSON.stringify(customInvoices)); } catch {} }
+    function rememberLogin(){ try { sessionStorage.setItem('sfm_ok','1'); } catch {} }
+    function forgetLogin(){ try { sessionStorage.removeItem('sfm_ok'); } catch {} }
+    function wasLoggedIn(){ try { return sessionStorage.getItem('sfm_ok') === '1'; } catch { return false; } }
+    function hydrateData(){
+      const merged = JSON.parse(JSON.stringify(baseData));
+      const baseInvoiceKeys = new Set((merged.invoices||[]).map(i => invoiceKey(i)));
+      const pendingCustomInvoices = customInvoices.filter(inv => !baseInvoiceKeys.has(invoiceKey(inv)));
+      const custom = pendingCustomInvoices.map(inv => ({
+        supplier: inv.supplier,
+        invoice: inv.invoice,
+        date: inv.date,
+        year: yearFromInvoice(inv),
+        photo: inv.photo || '',
+        total_amount: inv.total_amount,
+        total_fob: inv.total_fob,
+        freight: inv.freight,
+        fcl: inv.fcl,
+        products: inv.products || [],
+        lines: (inv.products || []).length,
+        currency: inv.currency
+      }));
+      merged.invoices = [...(merged.invoices||[]), ...custom];
+      merged.products = mergeProducts(merged.products||[], pendingCustomInvoices);
+      merged.suppliers = buildSuppliers(merged.invoices, merged.products);
+      return merged;
+    }
+    function invoiceKey(inv){ return [inv.supplier||'', inv.invoice||'', inv.date||''].join('\u0001').toLowerCase(); }
+    function buildSuppliers(invoices, products){
+      const groups = {};
+      invoices.forEach(i => {
+        const supplier = i.supplier || 'Unknown';
+        const currency = i.currency || 'USD';
+        if(!groups[supplier]) groups[supplier] = {supplier,total_amount:0,total_fob:0,freight:0,fcl:0,invoice_count:0,product_count:0,quantity_total:0,currencies:[],currency:'',totals_by_currency:{},fob_by_currency:{},freight_by_currency:{}};
+        const g = groups[supplier];
+        g.invoice_count += 1;
+        g.total_amount += fromNum(i.total_amount);
+        g.total_fob += fromNum(i.total_fob);
+        g.freight += fromNum(i.freight);
+        g.fcl += fromNum(i.fcl);
+        g.totals_by_currency[currency] = (g.totals_by_currency[currency]||0) + fromNum(i.total_amount);
+        g.fob_by_currency[currency] = (g.fob_by_currency[currency]||0) + fromNum(i.total_fob);
+        g.freight_by_currency[currency] = (g.freight_by_currency[currency]||0) + fromNum(i.freight);
+      });
+      Object.values(groups).forEach(g => {
+        g.currencies = Object.keys(g.totals_by_currency).sort();
+        g.currency = g.currencies.length === 1 ? g.currencies[0] : 'MIXED';
+        const supplierProducts = (products||[]).filter(p => p.supplier === g.supplier);
+        g.product_count = supplierProducts.length;
+        g.quantity_total = supplierProducts.reduce((s,p)=>s+fromNum(p.quantity),0);
+      });
+      return Object.values(groups).sort((a,b)=>supplierDZD(b)-supplierDZD(a));
+    }
+    function mergeProducts(products, invoices){
+      const byKey = {};
+      (products||[]).forEach(p => {
+        const key = [p.supplier,p.product,p.uom||''].join('\u0001');
+        byKey[key] = {...p, quantity:fromNum(p.quantity), invoice_count:fromNum(p.invoice_count), avg_rate:fromNum(p.avg_rate)};
+      });
+      invoices.forEach(inv => (inv.product_lines||[]).forEach(line => {
+        const key = [inv.supplier,line.product,line.uom||''].join('\u0001');
+        if(!byKey[key]) byKey[key] = {supplier:inv.supplier,product:line.product,uom:line.uom||'',quantity:0,invoice_count:0,avg_rate:0};
+        const p = byKey[key];
+        const oldCount = fromNum(p.invoice_count);
+        p.quantity += fromNum(line.quantity);
+        p.invoice_count = oldCount + 1;
+        p.avg_rate = p.avg_rate ? ((p.avg_rate * oldCount) + fromNum(line.rate)) / Math.max(1, p.invoice_count) : fromNum(line.rate);
+      }));
+      return Object.values(byKey).sort((a,b)=>a.supplier.localeCompare(b.supplier)||a.product.localeCompare(b.product));
+    }
     function moneyBreakdown(obj){ const e=Object.entries(obj||{}).filter(([,v])=>Math.abs(v||0)>0.000001); return e.length?e.map(([c,v])=>money(v,c)).join(' + '):'0'; }
     function originalForInvoiceList(list){ const out={}; list.forEach(i=>{const c=i.currency||'USD'; out[c]=(out[c]||0)+(Number(i.total_amount)||0)}); return out; }
     function totalDZDInvoiceList(list){ return list.reduce((s,i)=>s+toDZD(i.total_amount,i.currency||'USD'),0); }
@@ -102,14 +233,28 @@
     function currentInvoices(){ return data.invoices.filter(i => (state.supplier==='All'||i.supplier===state.supplier) && (state.currency==='All'||(i.currency||'USD')===state.currency) && matchSearch([i.supplier,i.invoice,i.currency,(i.products||[]).join(' '),i.date||''])); }
     function currentProducts(){ return data.products.filter(p => (state.supplier==='All'||p.supplier===state.supplier) && matchSearch([p.supplier,p.product,p.uom])); }
     function currentSuppliers(){ return data.suppliers.filter(s => (state.supplier==='All'||s.supplier===state.supplier) && matchesCurrencyFromObj(s.totals_by_currency||{[s.currency||'USD']:s.total_amount}) && matchSearch([s.supplier,(s.currencies||[]).join(' ')])); }
-    function unlock(){ if(el('passwordInput').value===PASSWORD){ sessionStorage.setItem('sfm_ok','1'); el('loginScreen').style.display='none'; el('app').style.display='grid'; init(); } else { el('loginError').textContent='Wrong password. Try again.'; } }
-    function logout(){ sessionStorage.removeItem('sfm_ok'); location.reload(); }
-    function init(){ fillFilters(); bind(); renderAll(); }
-    function fillFilters(){ const sel=el('supplierFilter'); sel.innerHTML='<option>All</option>'+data.suppliers.map(s=>`<option>${escapeHtml(s.supplier)}</option>`).join(''); }
-    function bind(){ el('searchInput').oninput=e=>{state.search=e.target.value;renderAll()}; el('supplierFilter').onchange=e=>{state.supplier=e.target.value;renderAll()}; el('currencyFilter').onchange=e=>{state.currency=e.target.value;renderAll()}; document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>showPage(b.dataset.page)); el('passwordInput').addEventListener('keydown', e => { if(e.key==='Enter') unlock(); }); }
+    function unlock(){ if(el('passwordInput').value.trim()===PASSWORD){ rememberLogin(); el('loginScreen').style.display='none'; el('app').style.display='grid'; init(); } else { el('loginError').textContent='Wrong password. Try again.'; } }
+    function logout(){ forgetLogin(); location.reload(); }
+    function init(){ fillFilters(); bind(); if(!el('productLines').children.length) addProductLine(); renderAll(); }
+    function fillFilters(){
+      const options = data.suppliers.map(s=>`<option>${escapeHtml(s.supplier)}</option>`).join('');
+      el('supplierFilter').innerHTML='<option>All</option>'+options;
+      el('supplierNames').innerHTML=options;
+      if(state.supplier !== 'All' && !data.suppliers.some(s=>s.supplier===state.supplier)){ state.supplier = 'All'; }
+      el('supplierFilter').value = state.supplier;
+    }
+    function bind(){
+      el('searchInput').oninput=e=>{state.search=e.target.value;renderAll()};
+      el('supplierFilter').onchange=e=>{state.supplier=e.target.value;renderAll()};
+      el('currencyFilter').onchange=e=>{state.currency=e.target.value;renderAll()};
+      document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>showPage(b.dataset.page));
+      el('passwordInput').addEventListener('keydown', e => { if(e.key==='Enter') unlock(); });
+      el('invoiceForm').addEventListener('submit', saveInvoiceFromForm);
+      el('formPhoto').addEventListener('change', previewInvoicePhoto);
+    }
     function showPage(page){ state.page=page; document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===page)); document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page)); window.scrollTo({top:0,behavior:'smooth'}); }
     function filterSupplier(name){ state.supplier=name; el('supplierFilter').value=name; showPage('goods'); renderAll(); }
-    function renderAll(){ renderKPIs(); renderBars(); renderCards(); renderTables(); }
+    function renderAll(){ renderKPIs(); renderBars(); renderCards(); renderTables(); renderLocalInvoices(); }
     function renderKPIs(){ const inv=currentInvoices(); const original=originalForInvoiceList(inv); const tDZD=totalDZDInvoiceList(inv); const supCount=new Set(inv.map(i=>i.supplier)).size; el('kpiDZD').textContent=dzd(tDZD); el('kpiOriginal').textContent='('+moneyBreakdown(original)+')'; el('kpiSuppliers').textContent=supCount; el('kpiInvoices').textContent=inv.length; el('kpiProducts').textContent=currentProducts().length; el('donutCenter').innerHTML=moneyBreakdown(original).replace(' + ','<br>'); }
     function renderBars(){ const inv=currentInvoices(); const groups={}; inv.forEach(i=>{groups[i.supplier]=(groups[i.supplier]||0)+toDZD(i.total_amount,i.currency||'USD')}); const rows=Object.entries(groups).map(([name,val])=>({name,val})).sort((a,b)=>b.val-a.val); const max=rows[0]?.val||1; el('topBars').innerHTML=rows.map(r=>`<div class="barRow"><div class="barName">${escapeHtml(r.name)}</div><div class="barTrack"><div class="barFill" style="width:${Math.max(2,r.val/max*100)}%"></div></div><div class="barValue">${dzd(r.val)}</div></div>`).join('')||'<div class="tiny">No results</div>'; }
     function renderCards(){ const list=currentSuppliers().sort((a,b)=>supplierDZD(b)-supplierDZD(a)); el('supplierCards').innerHTML=list.map(s=>`<div class="card supplierCard" onclick="filterSupplier('${jsSafe(s.supplier)}')"><h3>${escapeHtml(s.supplier)}</h3><div class="amount">${dzd(supplierDZD(s))}</div><div class="bracket">(${supplierOriginal(s)})</div><div class="mini"><div><span>Currency</span><b>${(s.currencies||[s.currency]).map(c=>`<span class="badge ${clsCurrency(c)}">${c}</span>`).join(' ')}</b></div><div><span>Invoices</span><b>${s.invoice_count||0}</b></div><div><span>Goods</span><b>${s.product_count||0}</b></div><div><span>Freight</span><b>${freightOriginal(s)}</b></div></div></div>`).join('')||'<div class="card">No supplier found.</div>'; }
@@ -117,12 +262,110 @@
     function renderTables(){
       table('suppliersTable',['Supplier','DZD total','Original total','FOB','Freight','FCL','Invoices','Goods'], currentSuppliers().sort((a,b)=>supplierDZD(b)-supplierDZD(a)).map(s=>`<tr><td><span class="badge">${escapeHtml(s.supplier)}</span></td><td class="num"><b>${dzd(supplierDZD(s))}</b></td><td class="num">${supplierOriginal(s)}</td><td class="num">${fobOriginal(s)}</td><td class="num">${freightOriginal(s)}</td><td class="num">${fmt(s.fcl)}</td><td class="num">${s.invoice_count||0}</td><td class="num">${s.product_count||0}</td></tr>`));
       table('productsTable',['Supplier','Product / goods bought','UOM','Quantity','Invoices','Average rate'], currentProducts().map(p=>`<tr><td>${escapeHtml(p.supplier)}</td><td class="productText">${escapeHtml(p.product)}</td><td>${escapeHtml(p.uom||'')}</td><td class="num">${fmt(p.quantity)}</td><td class="num">${p.invoice_count||0}</td><td class="num">${fmt(p.avg_rate)}</td></tr>`));
-      table('invoicesTable',['Supplier','Invoice','Date','Currency','DZD total','Original total','FOB','Freight','FCL','Products'], currentInvoices().sort((a,b)=>a.supplier.localeCompare(b.supplier)||String(a.invoice).localeCompare(String(b.invoice))).map(i=>`<tr><td>${escapeHtml(i.supplier)}</td><td><span class="badge">${escapeHtml(i.invoice)}</span></td><td>${escapeHtml(i.date||'')}</td><td><span class="badge ${clsCurrency(i.currency)}">${i.currency||''}</span></td><td class="num"><b>${dzd(toDZD(i.total_amount,i.currency||'USD'))}</b></td><td class="num">${money(i.total_amount,i.currency||'USD')}</td><td class="num">${money(i.total_fob||0,i.currency||'USD')}</td><td class="num">${money(i.freight||0,i.currency||'USD')}</td><td class="num">${fmt(i.fcl)}</td><td class="productText">${escapeHtml((i.products||[]).join(', '))}</td></tr>`));
+      table('invoicesTable',['Supplier','Invoice','Year','Date','Currency','DZD total','Original total','FOB','Freight','FCL','Photo','Products'], currentInvoices().sort((a,b)=>a.supplier.localeCompare(b.supplier)||String(a.invoice).localeCompare(String(b.invoice))).map(i=>`<tr><td>${escapeHtml(i.supplier)}</td><td><span class="badge">${escapeHtml(i.invoice)}</span></td><td>${escapeHtml(yearFromInvoice(i))}</td><td>${escapeHtml(i.date||'')}</td><td><span class="badge ${clsCurrency(i.currency)}">${i.currency||''}</span></td><td class="num"><b>${dzd(toDZD(i.total_amount,i.currency||'USD'))}</b></td><td class="num">${money(i.total_amount,i.currency||'USD')}</td><td class="num">${money(i.total_fob||0,i.currency||'USD')}</td><td class="num">${money(i.freight||0,i.currency||'USD')}</td><td class="num">${fmt(i.fcl)}</td><td>${i.photo?`<a class="photoLink" href="${i.photo}" target="_blank">Open</a>`:''}</td><td class="productText">${escapeHtml((i.products||[]).join(', '))}</td></tr>`));
     }
-    function downloadCSV(type){ let rows=[]; if(type==='suppliers'){ rows=[['Supplier','DZD Total','Original Total','FOB','Freight','Invoices','Goods'],...currentSuppliers().map(s=>[s.supplier,supplierDZD(s),supplierOriginal(s),fobOriginal(s),freightOriginal(s),s.invoice_count,s.product_count])]; } if(type==='products'){ rows=[['Supplier','Product','UOM','Quantity','Invoices','Average Rate'],...currentProducts().map(p=>[p.supplier,p.product,p.uom,p.quantity,p.invoice_count,p.avg_rate])]; } if(type==='invoices'){ rows=[['Supplier','Invoice','Date','Currency','DZD Total','Original Total','FOB','Freight','FCL','Products'],...currentInvoices().map(i=>[i.supplier,i.invoice,i.date,i.currency,toDZD(i.total_amount,i.currency||'USD'),i.total_amount,i.total_fob,i.freight,i.fcl,(i.products||[]).join(' | ')])]; } const csv=rows.map(r=>r.map(v=>'"'+String(v??'').replaceAll('"','""')+'"').join(',')).join('\n'); const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='sfm_'+type+'.csv'; a.click(); URL.revokeObjectURL(a.href); }
+    function addProductLine(line={}){
+      const row = document.createElement('div');
+      row.className = 'productLine';
+      row.innerHTML = `
+        <input class="input productName" placeholder="Product name" value="${escapeHtml(line.product||'')}">
+        <input class="input productUom" placeholder="UOM" value="${escapeHtml(line.uom||'')}">
+        <input class="input productQty" type="number" step="0.01" min="0" placeholder="Quantity" value="${line.quantity??''}">
+        <input class="input productRate" type="number" step="0.01" min="0" placeholder="Rate" value="${line.rate??''}">
+        <button class="iconBtn danger" type="button" title="Remove product line" onclick="this.closest('.productLine').remove()">&times;</button>`;
+      el('productLines').appendChild(row);
+    }
+    function collectProductLines(){
+      return [...document.querySelectorAll('.productLine')].map(row => ({
+        product: row.querySelector('.productName').value.trim(),
+        uom: row.querySelector('.productUom').value.trim(),
+        quantity: fromNum(row.querySelector('.productQty').value),
+        rate: fromNum(row.querySelector('.productRate').value)
+      })).filter(line => line.product);
+    }
+    async function previewInvoicePhoto(){
+      const file = el('formPhoto').files && el('formPhoto').files[0];
+      const preview = el('photoPreview');
+      if(!file){ preview.style.display = 'none'; preview.removeAttribute('src'); return; }
+      preview.src = await readFileAsDataURL(file);
+      preview.style.display = 'block';
+    }
+    async function saveInvoiceFromForm(event){
+      event.preventDefault();
+      const productLines = collectProductLines();
+      if(!productLines.length){ el('formStatus').textContent = 'Add at least one product line.'; return; }
+      const photoFile = el('formPhoto').files && el('formPhoto').files[0];
+      const photo = await readFileAsDataURL(photoFile);
+      const invoice = {
+        id: Date.now().toString(36),
+        supplier: el('formSupplier').value.trim(),
+        invoice: el('formInvoice').value.trim(),
+        date: parseDateForDisplay(el('formDate').value),
+        year: el('formYear').value,
+        photo,
+        currency: el('formCurrency').value,
+        total_amount: fromNum(el('formTotal').value),
+        total_fob: fromNum(el('formFob').value),
+        freight: fromNum(el('formFreight').value),
+        fcl: el('formFcl').value === '' ? null : fromNum(el('formFcl').value),
+        products: productLines.map(p=>p.product),
+        product_lines: productLines
+      };
+      customInvoices.push(invoice);
+      saveCustomInvoices();
+      data = hydrateData();
+      fillFilters();
+      clearInvoiceForm(false);
+      el('formStatus').textContent = 'Invoice saved and dashboard updated.';
+      state.supplier = invoice.supplier;
+      el('supplierFilter').value = invoice.supplier;
+      renderAll();
+    }
+    function clearInvoiceForm(resetStatus=true){
+      el('invoiceForm').reset();
+      el('productLines').innerHTML = '';
+      el('photoPreview').style.display = 'none';
+      el('photoPreview').removeAttribute('src');
+      addProductLine();
+      if(resetStatus) el('formStatus').textContent = '';
+    }
+    function renderLocalInvoices(){
+      el('localCount').textContent = `${customInvoices.length} local invoice${customInvoices.length===1?'':'s'}`;
+      const rows = customInvoices.length
+        ? customInvoices.map((i,idx)=>`<tr><td>${escapeHtml(i.supplier)}</td><td>${escapeHtml(i.invoice)}</td><td>${escapeHtml(yearFromInvoice(i))}</td><td>${escapeHtml(i.date)}</td><td><span class="badge ${clsCurrency(i.currency)}">${i.currency}</span></td><td class="num">${money(i.total_amount,i.currency)}</td><td>${i.photo?`<a class="photoLink" href="${i.photo}" target="_blank">Open</a>`:''}</td><td>${escapeHtml((i.products||[]).join(', '))}</td><td><button class="iconBtn danger" title="Delete invoice" onclick="deleteLocalInvoice(${idx})">&times;</button></td></tr>`)
+        : ['<tr><td colspan="9" class="tiny">No local invoices added yet.</td></tr>'];
+      table('localInvoicesTable',['Supplier','Invoice','Year','Date','Currency','Total','Photo','Products',''], rows);
+    }
+    function deleteLocalInvoice(index){
+      customInvoices.splice(index,1);
+      saveCustomInvoices();
+      data = hydrateData();
+      fillFilters();
+      renderAll();
+    }
+    function resetLocalInvoices(){
+      if(!customInvoices.length) return;
+      if(!confirm('Clear all invoices saved in this browser?')) return;
+      customInvoices = [];
+      saveCustomInvoices();
+      data = hydrateData();
+      fillFilters();
+      renderAll();
+    }
+    function downloadDataJS(){
+      const exportData = {...data, metadata:{...(data.metadata||{}), exported_at:new Date().toISOString(), local_invoice_count:customInvoices.length}};
+      const js = 'window.PURCHASE_DATA = ' + JSON.stringify(exportData, null, 2) + ';\n';
+      const blob=new Blob([js],{type:'text/javascript;charset=utf-8'});
+      const a=document.createElement('a');
+      a.href=URL.createObjectURL(blob);
+      a.download='data.js';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+    function downloadCSV(type){ let rows=[]; if(type==='suppliers'){ rows=[['Supplier','DZD Total','Original Total','FOB','Freight','Invoices','Goods'],...currentSuppliers().map(s=>[s.supplier,supplierDZD(s),supplierOriginal(s),fobOriginal(s),freightOriginal(s),s.invoice_count,s.product_count])]; } if(type==='products'){ rows=[['Supplier','Product','UOM','Quantity','Invoices','Average Rate'],...currentProducts().map(p=>[p.supplier,p.product,p.uom,p.quantity,p.invoice_count,p.avg_rate])]; } if(type==='invoices'){ rows=[['Supplier','Invoice','Year','Date','Currency','DZD Total','Original Total','FOB','Freight','FCL','Photo','Products'],...currentInvoices().map(i=>[i.supplier,i.invoice,yearFromInvoice(i),i.date,i.currency,toDZD(i.total_amount,i.currency||'USD'),i.total_amount,i.total_fob,i.freight,i.fcl,i.photo?'Yes':'',(i.products||[]).join(' | ')])]; } const csv=rows.map(r=>r.map(v=>'"'+String(v??'').replaceAll('"','""')+'"').join(',')).join('\n'); const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='sfm_'+type+'.csv'; a.click(); URL.revokeObjectURL(a.href); }
     function escapeHtml(str){ return String(str??'').replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m])); }
     function jsSafe(str){ return String(str??'').replace(/\\/g,'\\\\').replace(/'/g,"\\'"); }
-    if(sessionStorage.getItem('sfm_ok')==='1'){ el('loginScreen').style.display='none'; el('app').style.display='grid'; init(); }
+    if(wasLoggedIn()){ el('loginScreen').style.display='none'; el('app').style.display='grid'; init(); }
   </script>
 </body>
 </html>
