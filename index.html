@@ -88,7 +88,7 @@
       </section>
       <section id="suppliers" class="page"><div class="card"><div class="toolbar"><div><h3 class="sectionTitle"><span>Suppliers summary</span></h3><div class="tiny">Click a supplier card from dashboard to filter.</div></div><button class="btn" onclick="downloadCSV('suppliers')">Export CSV</button></div><div class="tableWrap"><table id="suppliersTable"></table></div></div></section>
       <section id="goods" class="page"><div class="card"><div class="toolbar"><div><h3 class="sectionTitle"><span>Goods bought</span></h3><div class="tiny">Products grouped by supplier.</div></div><button class="btn" onclick="downloadCSV('products')">Export CSV</button></div><div class="tableWrap"><table id="productsTable"></table></div></div></section>
-      <section id="invoices" class="page"><div class="card"><div class="toolbar"><div><h3 class="sectionTitle"><span>Invoices</span></h3><div class="tiny">Each invoice counted one time.</div></div><button class="btn" onclick="downloadCSV('invoices')">Export CSV</button></div><div class="tableWrap"><table id="invoicesTable"></table></div></div></section>
+      <section id="invoices" class="page"><div class="card"><div class="toolbar"><div><h3 class="sectionTitle"><span>Invoices</span></h3><div class="tiny">Each invoice product is shown on its own line with price.</div></div><button class="btn" onclick="downloadCSV('invoices')">Export CSV</button></div><div class="tableWrap"><table id="invoicesTable"></table></div></div></section>
       <section id="manage" class="page">
         <div class="grid dashboard">
           <div class="card">
@@ -252,6 +252,77 @@
     function currentInvoices(){ return filteredInvoicesBase().filter(i => matchSearch([i.supplier,i.invoice,i.currency,yearFromInvoice(i),(i.products||[]).join(' '),i.date||''])); }
     function currentProducts(){ const inv=currentInvoices(); const suppliers=new Set(inv.map(i=>i.supplier)); const productNames=new Set(inv.flatMap(i=>i.products||[]).map(p=>String(p).toLowerCase())); return data.products.filter(p => suppliers.has(p.supplier) && (!productNames.size || productNames.has(String(p.product).toLowerCase())) && matchSearch([p.supplier,p.product,p.uom])); }
     function currentSuppliers(){ const inv=currentInvoices(); const names=new Set(inv.map(i=>i.supplier)); return data.suppliers.filter(s => names.has(s.supplier) && matchesCurrencyFromObj(s.totals_by_currency||{[s.currency||'USD']:s.total_amount}) && matchSearch([s.supplier,(s.currencies||[]).join(' ')])); }
+    function currentInvoiceProductLines(){
+      const invoices=currentInvoices();
+      const invoiceMap=new Map(invoices.map(i=>[invoiceKey(i),i]));
+      const rows=[];
+      const withLines=new Set();
+      (data.records||[]).forEach(record=>{
+        const inv=invoiceMap.get(invoiceKey(record));
+        if(!inv) return;
+        const quantity=fromNum(record.quantity);
+        const rate=fromNum(record.rate);
+        withLines.add(invoiceKey(inv));
+        rows.push({
+          supplier:record.supplier||inv.supplier,
+          invoice:record.invoice||inv.invoice,
+          year:yearFromInvoice(inv),
+          date:record.date||inv.date,
+          currency:inv.currency||record.currency||'USD',
+          product:record.product||'',
+          uom:record.uom||'',
+          quantity,
+          rate,
+          line_total:quantity*rate,
+          invoice_total:fromNum(inv.total_amount||record.total_amount),
+          dzd_total:toDZD(inv.total_amount||record.total_amount,inv.currency||record.currency||'USD'),
+          photo:inv.photo||''
+        });
+      });
+      customInvoices.forEach(inv=>{
+        const selected=invoiceMap.get(invoiceKey(inv));
+        if(!selected) return;
+        (inv.product_lines||[]).forEach(line=>{
+          const quantity=fromNum(line.quantity);
+          const rate=fromNum(line.rate);
+          withLines.add(invoiceKey(selected));
+          rows.push({
+            supplier:inv.supplier,
+            invoice:inv.invoice,
+            year:yearFromInvoice(inv),
+            date:inv.date,
+            currency:inv.currency||'USD',
+            product:line.product||'',
+            uom:line.uom||'',
+            quantity,
+            rate,
+            line_total:quantity*rate,
+            invoice_total:fromNum(inv.total_amount),
+            dzd_total:toDZD(inv.total_amount,inv.currency||'USD'),
+            photo:inv.photo||''
+          });
+        });
+      });
+      invoices.forEach(inv=>{
+        if(withLines.has(invoiceKey(inv))) return;
+        (inv.products&&inv.products.length?inv.products:['']).forEach(product=>rows.push({
+          supplier:inv.supplier,
+          invoice:inv.invoice,
+          year:yearFromInvoice(inv),
+          date:inv.date||'',
+          currency:inv.currency||'USD',
+          product,
+          uom:'',
+          quantity:0,
+          rate:0,
+          line_total:0,
+          invoice_total:fromNum(inv.total_amount),
+          dzd_total:toDZD(inv.total_amount,inv.currency||'USD'),
+          photo:inv.photo||''
+        }));
+      });
+      return rows.sort((a,b)=>a.supplier.localeCompare(b.supplier)||String(a.invoice).localeCompare(String(b.invoice))||String(a.product).localeCompare(String(b.product)));
+    }
     function unlock(){ if(el('passwordInput').value.trim()===PASSWORD){ rememberLogin(); el('loginScreen').style.display='none'; el('app').style.display='grid'; init(); } else { el('loginError').textContent='Wrong password. Try again.'; } }
     function logout(){ forgetLogin(); location.reload(); }
     function init(){ fillFilters(); bind(); if(!el('productLines').children.length) addProductLine(); renderAll(); }
@@ -293,7 +364,7 @@
       const suppliers=currentSuppliers().sort((a,b)=>supplierDZD(b)-supplierDZD(a));
       table('suppliersTable',['Supplier','DZD total','Share of total','Original total','FOB','Freight','FCL','Invoices','Goods'], suppliers.map(s=>`<tr><td><span class="badge">${escapeHtml(s.supplier)}</span></td><td class="num"><b>${dzd(supplierDZD(s))}</b></td><td class="num"><b>${fmt(supplierShare(s,suppliers))}%</b></td><td class="num">${supplierOriginal(s)}</td><td class="num">${fobOriginal(s)}</td><td class="num">${freightOriginal(s)}</td><td class="num">${fmt(s.fcl)}</td><td class="num">${s.invoice_count||0}</td><td class="num">${s.product_count||0}</td></tr>`));
       table('productsTable',['Supplier','Product / goods bought','UOM','Quantity','Invoices','Average rate'], currentProducts().map(p=>`<tr><td>${escapeHtml(p.supplier)}</td><td class="productText">${escapeHtml(p.product)}</td><td>${escapeHtml(p.uom||'')}</td><td class="num">${fmt(p.quantity)}</td><td class="num">${p.invoice_count||0}</td><td class="num">${fmt(p.avg_rate)}</td></tr>`));
-      table('invoicesTable',['Supplier','Invoice','Year','Date','Currency','DZD total','Original total','FOB','Freight','FCL','Photo','Products'], currentInvoices().sort((a,b)=>a.supplier.localeCompare(b.supplier)||String(a.invoice).localeCompare(String(b.invoice))).map(i=>`<tr><td>${escapeHtml(i.supplier)}</td><td><span class="badge">${escapeHtml(i.invoice)}</span></td><td>${escapeHtml(yearFromInvoice(i))}</td><td>${escapeHtml(i.date||'')}</td><td><span class="badge ${clsCurrency(i.currency)}">${i.currency||''}</span></td><td class="num"><b>${dzd(toDZD(i.total_amount,i.currency||'USD'))}</b></td><td class="num">${money(i.total_amount,i.currency||'USD')}</td><td class="num">${money(i.total_fob||0,i.currency||'USD')}</td><td class="num">${money(i.freight||0,i.currency||'USD')}</td><td class="num">${fmt(i.fcl)}</td><td>${i.photo?`<a class="photoLink" href="${i.photo}" target="_blank">Open</a>`:''}</td><td class="productText">${escapeHtml((i.products||[]).join(', '))}</td></tr>`));
+      table('invoicesTable',['Supplier','Invoice','Year','Date','Product','UOM','Quantity','Unit price','Line total','Currency','Invoice total','DZD invoice total','Photo'], currentInvoiceProductLines().map(i=>`<tr><td>${escapeHtml(i.supplier)}</td><td><span class="badge">${escapeHtml(i.invoice)}</span></td><td>${escapeHtml(i.year)}</td><td>${escapeHtml(i.date||'')}</td><td class="productText">${escapeHtml(i.product)}</td><td>${escapeHtml(i.uom||'')}</td><td class="num">${fmt(i.quantity)}</td><td class="num">${money(i.rate,i.currency)}</td><td class="num"><b>${money(i.line_total,i.currency)}</b></td><td><span class="badge ${clsCurrency(i.currency)}">${i.currency||''}</span></td><td class="num">${money(i.invoice_total,i.currency)}</td><td class="num"><b>${dzd(i.dzd_total)}</b></td><td>${i.photo?`<a class="photoLink" href="${i.photo}" target="_blank">Open</a>`:''}</td></tr>`));
     }
     function addProductLine(line={}){
       const row = document.createElement('div');
@@ -419,7 +490,7 @@
       a.click();
       URL.revokeObjectURL(a.href);
     }
-    function downloadCSV(type){ let rows=[]; if(type==='suppliers'){ const suppliers=currentSuppliers(); rows=[['Supplier','DZD Total','Share of Total %','Original Total','FOB','Freight','Invoices','Goods'],...suppliers.map(s=>[s.supplier,supplierDZD(s),supplierShare(s,suppliers),supplierOriginal(s),fobOriginal(s),freightOriginal(s),s.invoice_count,s.product_count])]; } if(type==='products'){ rows=[['Supplier','Product','UOM','Quantity','Invoices','Average Rate'],...currentProducts().map(p=>[p.supplier,p.product,p.uom,p.quantity,p.invoice_count,p.avg_rate])]; } if(type==='invoices'){ rows=[['Supplier','Invoice','Year','Date','Currency','DZD Total','Original Total','FOB','Freight','FCL','Photo','Products'],...currentInvoices().map(i=>[i.supplier,i.invoice,yearFromInvoice(i),i.date,i.currency,toDZD(i.total_amount,i.currency||'USD'),i.total_amount,i.total_fob,i.freight,i.fcl,i.photo?'Yes':'',(i.products||[]).join(' | ')])]; } const csv=rows.map(r=>r.map(v=>'"'+String(v??'').replaceAll('"','""')+'"').join(',')).join('\n'); const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='sfm_'+type+'.csv'; a.click(); URL.revokeObjectURL(a.href); }
+    function downloadCSV(type){ let rows=[]; if(type==='suppliers'){ const suppliers=currentSuppliers(); rows=[['Supplier','DZD Total','Share of Total %','Original Total','FOB','Freight','Invoices','Goods'],...suppliers.map(s=>[s.supplier,supplierDZD(s),supplierShare(s,suppliers),supplierOriginal(s),fobOriginal(s),freightOriginal(s),s.invoice_count,s.product_count])]; } if(type==='products'){ rows=[['Supplier','Product','UOM','Quantity','Invoices','Average Rate'],...currentProducts().map(p=>[p.supplier,p.product,p.uom,p.quantity,p.invoice_count,p.avg_rate])]; } if(type==='invoices'){ rows=[['Supplier','Invoice','Year','Date','Product','UOM','Quantity','Unit Price','Line Total','Currency','Invoice Total','DZD Invoice Total','Photo'],...currentInvoiceProductLines().map(i=>[i.supplier,i.invoice,i.year,i.date,i.product,i.uom,i.quantity,i.rate,i.line_total,i.currency,i.invoice_total,i.dzd_total,i.photo?'Yes':''])]; } const csv=rows.map(r=>r.map(v=>'"'+String(v??'').replaceAll('"','""')+'"').join(',')).join('\n'); const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='sfm_'+type+'.csv'; a.click(); URL.revokeObjectURL(a.href); }
     function escapeHtml(str){ return String(str??'').replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m])); }
     function jsSafe(str){ return String(str??'').replace(/\\/g,'\\\\').replace(/'/g,"\\'"); }
     if(wasLoggedIn()){ el('loginScreen').style.display='none'; el('app').style.display='grid'; init(); }
