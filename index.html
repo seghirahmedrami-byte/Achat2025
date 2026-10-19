@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SFM Supplier Purchases Dashboard 2025</title>
+  <title>SFM Supplier Purchases Dashboard 2025 &amp; 2026</title>
   <style>
     :root{
       --bg0:#030b16;--bg1:#071a2d;--bg2:#0c2e50;--panel:rgba(9,24,39,.88);--panel2:rgba(255,255,255,.07);
@@ -54,11 +54,11 @@
   </div>
   <div class="app" id="app" style="display:none">
     <aside class="side">
-      <div class="brand"><div class="logo">SFM</div><div><h2>Purchases 2025</h2><span>Supplier control dashboard</span></div></div>
+      <div class="brand"><div class="logo">SFM</div><div><h2>Purchases 2025 / 2026</h2><span>Supplier control dashboard</span></div></div>
       <label class="fieldLabel">Search supplier, invoice or product</label><input class="input" id="searchInput" placeholder="Search..." />
       <label class="fieldLabel">Supplier filter</label><select class="select" id="supplierFilter"></select>
       <label class="fieldLabel">Currency filter</label><select class="select" id="currencyFilter"><option>All</option><option>EUR</option><option>USD</option></select>
-      <label class="fieldLabel">Year filter</label><select class="select" id="yearFilter"></select>
+      <div class="actions" aria-label="Purchase year"><button class="btn secondary" id="year2025" onclick="selectYear(2025)">2025</button><button class="btn secondary" id="year2026" onclick="selectYear(2026)">2026</button></div><label class="fieldLabel">Year filter</label><select class="select" id="yearFilter"></select>
       <div class="nav">
         <button class="active" data-page="dashboard"><span class="dot"></span>Dashboard</button>
         <button data-page="suppliers"><span class="dot"></span>Suppliers</button>
@@ -133,7 +133,7 @@
           <div class="tableWrap"><table id="localInvoicesTable" class="smallTable"></table></div>
         </div>
       </section>
-      <div class="footer">SFM Supplier Purchases Dashboard / Built from dossier achat 2025 par fournisseur</div>
+      <div class="card" id="reconciliationNotes" role="status" style="margin-top:16px"></div><div class="footer">SFM Supplier Purchases Dashboard / Purchases separated by invoice year / 2026 spare parts and equipment</div>
     </main>
   </div>
   <script src="data.js"></script>
@@ -151,7 +151,7 @@
     const baseData = JSON.parse(JSON.stringify(window.PURCHASE_DATA || {suppliers:[],products:[],invoices:[],metadata:{}}));
     let customInvoices = loadCustomInvoices();
     let data = hydrateData();
-    let state = {page:'dashboard',supplier:'All',currency:'All',year:'All',search:''};
+    let state = {page:'dashboard',supplier:'All',currency:'All',year:'Invoice 2026',search:''};
     const el = id => document.getElementById(id);
     const fmt = n => (Number(n)||0).toLocaleString(undefined,{maximumFractionDigits:2});
     const dzd = n => fmt(n)+' DZD';
@@ -262,8 +262,16 @@
     function matchesYear(i){ return state.year==='All' || yearFromInvoice(i)===state.year; }
     function filteredInvoicesBase(){ return data.invoices.filter(i => (state.supplier==='All'||i.supplier===state.supplier) && (state.currency==='All'||(i.currency||'USD')===state.currency) && matchesYear(i)); }
     function currentInvoices(){ return filteredInvoicesBase().filter(i => matchSearch([i.supplier,i.invoice,i.currency,yearFromInvoice(i),(i.products||[]).join(' '),i.date||''])); }
-    function currentProducts(){ const inv=currentInvoices(); const suppliers=new Set(inv.map(i=>i.supplier)); const productNames=new Set(inv.flatMap(i=>i.products||[]).map(p=>String(p).toLowerCase())); return data.products.filter(p => suppliers.has(p.supplier) && (!productNames.size || productNames.has(String(p.product).toLowerCase())) && matchSearch([p.supplier,p.product,p.uom])); }
-    function currentSuppliers(){ const inv=currentInvoices(); const names=new Set(inv.map(i=>i.supplier)); return data.suppliers.filter(s => names.has(s.supplier) && matchesCurrencyFromObj(s.totals_by_currency||{[s.currency||'USD']:s.total_amount}) && matchSearch([s.supplier,(s.currencies||[]).join(' ')])); }
+    function currentProducts(){
+      const groups=new Map();
+      currentInvoiceProductLines().forEach(line=>{
+        const key=[line.supplier,line.product,line.uom,line.currency].join('\u0001');
+        if(!groups.has(key)) groups.set(key,{supplier:line.supplier,product:line.product,uom:line.uom,currency:line.currency,quantity:0,total:0,invoices:new Set()});
+        const p=groups.get(key); p.quantity+=line.quantity; p.total+=line.line_total; p.invoices.add([line.invoice,line.date].join('\u0001'));
+      });
+      return [...groups.values()].map(p=>({...p,invoice_count:p.invoices.size,avg_rate:p.quantity?p.total/p.quantity:0}));
+    }
+    function currentSuppliers(){ return buildSuppliers(currentInvoices(),currentProducts()); }
     function currentInvoiceProductLines(){
       const invoices=currentInvoices();
       const invoiceMap=new Map(invoices.map(i=>[invoiceKey(i),i]));
@@ -285,13 +293,13 @@
           uom:record.uom||'',
           quantity,
           rate,
-          line_total:quantity*rate,
+          line_total:record.line_total == null ? quantity*rate : fromNum(record.line_total),
           invoice_total:fromNum(inv.total_amount||record.total_amount),
           dzd_total:toDZD(inv.total_amount||record.total_amount,inv.currency||record.currency||'USD'),
           photo:inv.photo||''
         });
       });
-      customInvoices.forEach(inv=>{
+      customInvoices.filter(inv=>!(baseData.invoices||[]).some(base=>invoiceKey(base)===invoiceKey(inv))).forEach(inv=>{
         const selected=invoiceMap.get(invoiceKey(inv));
         if(!selected) return;
         (inv.product_lines||[]).forEach(line=>{
@@ -386,7 +394,8 @@
     }
     function showPage(page){ state.page=page; document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===page)); document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page)); window.scrollTo({top:0,behavior:'smooth'}); }
     function filterSupplier(name){ state.supplier=name; el('supplierFilter').value=name; showPage('goods'); renderAll(); }
-    function renderAll(){ renderKPIs(); renderBars(); renderCards(); renderTables(); renderLocalInvoices(); }
+    function selectYear(year){ state.year='Invoice '+year; state.supplier='All'; state.currency='All'; state.search=''; el('searchInput').value=''; el('currencyFilter').value='All'; fillFilters(); renderAll(); }
+    function renderAll(){ for(const year of [2025,2026]) el('year'+year).setAttribute('aria-pressed',String(state.year==='Invoice '+year)); const notes=currentInvoices().filter(i=>i.notes); el('reconciliationNotes').hidden=!notes.length; el('reconciliationNotes').innerHTML=notes.map(i=>`<p><b>${escapeHtml(i.supplier)} / ${escapeHtml(i.invoice||'Invoice number unavailable')}</b>: ${escapeHtml(i.notes)}</p>`).join(''); renderKPIs(); renderBars(); renderCards(); renderTables(); renderLocalInvoices(); }
     function renderKPIs(){ const inv=currentInvoices(); const original=originalForInvoiceList(inv); const tDZD=totalDZDInvoiceList(inv); const supCount=new Set(inv.map(i=>i.supplier)).size; el('kpiDZD').textContent=dzd(tDZD); el('kpiOriginal').textContent=`${state.year==='All'?'All years':state.year} / ${moneyBreakdown(original)}`; el('kpiSuppliers').textContent=supCount; el('kpiInvoices').textContent=inv.length; el('kpiProducts').textContent=currentProducts().length; el('donutCenter').innerHTML=moneyBreakdown(original).replace(' + ','<br>'); }
     function renderBars(){ const inv=currentInvoices(); const groups={}; inv.forEach(i=>{groups[i.supplier]=(groups[i.supplier]||0)+toDZD(i.total_amount,i.currency||'USD')}); const rows=Object.entries(groups).map(([name,val])=>({name,val})).sort((a,b)=>b.val-a.val); const total=rows.reduce((sum,r)=>sum+r.val,0)||1; el('topBars').innerHTML=rows.map(r=>{const pct=r.val/total*100; return `<div class="barRow"><div class="barName">${escapeHtml(r.name)}</div><div class="barTrack"><div class="barFill" style="width:${Math.max(2,pct)}%"></div></div><div class="barValue">${fmt(pct)}% / ${dzd(r.val)}</div></div>`}).join('')||'<div class="tiny">No results</div>'; }
     function renderCards(){ const list=currentSuppliers().sort((a,b)=>supplierDZD(b)-supplierDZD(a)); el('supplierCards').innerHTML=list.map(s=>`<div class="card supplierCard" onclick="filterSupplier('${jsSafe(s.supplier)}')"><h3>${escapeHtml(s.supplier)}</h3><div class="amount">${dzd(supplierDZD(s))}</div><div class="bracket">(${supplierOriginal(s)})</div><div class="mini"><div><span>Share of total</span><b>${fmt(supplierShare(s,list))}%</b></div><div><span>Currency</span><b>${(s.currencies||[s.currency]).map(c=>`<span class="badge ${clsCurrency(c)}">${c}</span>`).join(' ')}</b></div><div><span>Invoices</span><b>${s.invoice_count||0}</b></div><div><span>Goods</span><b>${s.product_count||0}</b></div></div></div>`).join('')||'<div class="card">No supplier found.</div>'; }
@@ -394,7 +403,7 @@
     function renderTables(){
       const suppliers=currentSuppliers().sort((a,b)=>supplierDZD(b)-supplierDZD(a));
       table('suppliersTable',['Supplier','DZD total','Share of total','Original total','FOB','Freight','FCL','Invoices','Goods'], suppliers.map(s=>`<tr><td><span class="badge">${escapeHtml(s.supplier)}</span></td><td class="num"><b>${dzd(supplierDZD(s))}</b></td><td class="num"><b>${fmt(supplierShare(s,suppliers))}%</b></td><td class="num">${supplierOriginal(s)}</td><td class="num">${fobOriginal(s)}</td><td class="num">${freightOriginal(s)}</td><td class="num">${fmt(s.fcl)}</td><td class="num">${s.invoice_count||0}</td><td class="num">${s.product_count||0}</td></tr>`));
-      table('productsTable',['Supplier','Product / goods bought','UOM','Quantity','Invoices','Average rate'], currentProducts().map(p=>`<tr><td>${escapeHtml(p.supplier)}</td><td class="productText">${escapeHtml(p.product)}</td><td>${escapeHtml(p.uom||'')}</td><td class="num">${fmt(p.quantity)}</td><td class="num">${p.invoice_count||0}</td><td class="num">${fmt(p.avg_rate)}</td></tr>`));
+      table('productsTable',['Supplier','Product / goods bought','UOM','Quantity','Invoices','Average rate','Currency'], currentProducts().map(p=>`<tr><td>${escapeHtml(p.supplier)}</td><td class="productText">${escapeHtml(p.product)}</td><td>${escapeHtml(p.uom||'')}</td><td class="num">${fmt(p.quantity)}</td><td class="num">${p.invoice_count||0}</td><td class="num">${fmt(p.avg_rate)}</td><td>${escapeHtml(p.currency)}</td></tr>`));
       table('invoicesTable',['Supplier','Invoice','Year','Date','Product','UOM','Quantity','Unit price','Line total','Currency','Invoice total','DZD invoice total','Photo'], currentInvoiceProductLines().map(i=>`<tr><td>${escapeHtml(i.supplier)}</td><td><span class="badge">${escapeHtml(i.invoice)}</span></td><td>${escapeHtml(i.year)}</td><td>${escapeHtml(i.date||'')}</td><td class="productText">${escapeHtml(i.product)}</td><td>${escapeHtml(i.uom||'')}</td><td class="num">${fmt(i.quantity)}</td><td class="num">${money(i.rate,i.currency)}</td><td class="num"><b>${money(i.line_total,i.currency)}</b></td><td><span class="badge ${clsCurrency(i.currency)}">${i.currency||''}</span></td><td class="num">${money(i.invoice_total,i.currency)}</td><td class="num"><b>${dzd(i.dzd_total)}</b></td><td>${i.photo?`<a class="photoLink" href="${i.photo}" target="_blank">Open</a>`:''}</td></tr>`));
     }
     function addProductLine(line={}){
@@ -521,7 +530,7 @@
       a.click();
       URL.revokeObjectURL(a.href);
     }
-    function downloadCSV(type){ let rows=[]; if(type==='suppliers'){ const suppliers=currentSuppliers(); rows=[['Supplier','DZD Total','Share of Total %','Original Total','FOB','Freight','Invoices','Goods'],...suppliers.map(s=>[s.supplier,supplierDZD(s),supplierShare(s,suppliers),supplierOriginal(s),fobOriginal(s),freightOriginal(s),s.invoice_count,s.product_count])]; } if(type==='products'){ rows=[['Supplier','Product','UOM','Quantity','Invoices','Average Rate'],...currentProducts().map(p=>[p.supplier,p.product,p.uom,p.quantity,p.invoice_count,p.avg_rate])]; } if(type==='invoices'){ rows=[['Supplier','Invoice','Year','Date','Product','UOM','Quantity','Unit Price','Line Total','Currency','Invoice Total','DZD Invoice Total','Photo'],...currentInvoiceProductLines().map(i=>[i.supplier,i.invoice,i.year,i.date,i.product,i.uom,i.quantity,i.rate,i.line_total,i.currency,i.invoice_total,i.dzd_total,i.photo?'Yes':''])]; } const csv=rows.map(r=>r.map(v=>'"'+String(v??'').replaceAll('"','""')+'"').join(',')).join('\n'); const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='sfm_'+type+'.csv'; a.click(); URL.revokeObjectURL(a.href); }
+    function downloadCSV(type){ let rows=[]; if(type==='suppliers'){ const suppliers=currentSuppliers(); rows=[['Supplier','DZD Total','Share of Total %','Original Total','FOB','Freight','Invoices','Goods'],...suppliers.map(s=>[s.supplier,supplierDZD(s),supplierShare(s,suppliers),supplierOriginal(s),fobOriginal(s),freightOriginal(s),s.invoice_count,s.product_count])]; } if(type==='products'){ rows=[['Supplier','Product','UOM','Quantity','Invoices','Average Rate','Currency'],...currentProducts().map(p=>[p.supplier,p.product,p.uom,p.quantity,p.invoice_count,p.avg_rate,p.currency])]; } if(type==='invoices'){ rows=[['Supplier','Invoice','Year','Date','Product','UOM','Quantity','Unit Price','Line Total','Currency','Invoice Total','DZD Invoice Total','Photo'],...currentInvoiceProductLines().map(i=>[i.supplier,i.invoice,i.year,i.date,i.product,i.uom,i.quantity,i.rate,i.line_total,i.currency,i.invoice_total,i.dzd_total,i.photo?'Yes':''])]; } const csv=rows.map(r=>r.map(v=>'"'+String(v??'').replaceAll('"','""')+'"').join(',')).join('\n'); const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='sfm_'+type+'_'+state.year.replaceAll(' ','_')+'.csv'; a.click(); URL.revokeObjectURL(a.href); }
     function escapeHtml(str){ return String(str??'').replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m])); }
     function jsSafe(str){ return String(str??'').replace(/\\/g,'\\\\').replace(/'/g,"\\'"); }
     if(wasLoggedIn()){ el('loginScreen').style.display='none'; el('app').style.display='grid'; init(); }
