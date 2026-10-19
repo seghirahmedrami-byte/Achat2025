@@ -16,7 +16,7 @@ assert.equal(run('currentInvoices().filter(i=>!i.invoice).length'),1);
 run("state.year='Invoice 2025'");
 assert.equal(run('currentInvoices().length'),40);
 const originalContext=vm.createContext({window:{}});
-vm.runInContext(cp.execFileSync('git',['show','HEAD:data.js'],{encoding:'utf8'}),originalContext);
+vm.runInContext(cp.execFileSync('git',['show','c6a85c7:data.js'],{encoding:'utf8'}),originalContext);
 const orig=originalContext.window.PURCHASE_DATA;
 assert.deepEqual(JSON.parse(run('JSON.stringify(data.invoices.slice(0,43))')),JSON.parse(JSON.stringify(orig.invoices)));
 assert.deepEqual(JSON.parse(run(`JSON.stringify(data.records.slice(0,${orig.records.length}))`)),JSON.parse(JSON.stringify(orig.records)));

@@ -10,6 +10,7 @@
       --text:#edf6ff;--muted:#9eb2c4;--line:rgba(255,255,255,.13);--teal:#2da8e8;--blue:#145c9d;--gold:#e9a83a;--red:#e9a83a;--green:#45c486;
       --shadow:0 24px 70px rgba(0,0,0,.38);--radius:14px;
     }
+    [data-language][aria-pressed="true"]{outline:2px solid var(--gold);outline-offset:-2px}
     *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:var(--bg0);min-height:100vh;}
     body:before{content:"";position:fixed;inset:0;background:linear-gradient(145deg,#030b16 0%,#071a2d 48%,#0c2e50 100%);z-index:-2}
     body:after{content:"";position:fixed;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,0) 42%),radial-gradient(circle at 12% 8%,rgba(45,168,232,.25),transparent 28%),radial-gradient(circle at 88% 10%,rgba(233,168,58,.18),transparent 26%),radial-gradient(circle at 72% 82%,rgba(20,92,157,.24),transparent 34%);z-index:-1;pointer-events:none}
@@ -28,6 +29,10 @@
   </style>
 </head>
 <body>
+  <div data-no-translate style="position:fixed;right:16px;top:12px;z-index:30;display:flex;gap:6px;background:#071a2d;padding:6px;border-radius:12px;border:1px solid #9eb2c4" aria-label="Language / Langue">
+    <button class="btn secondary" data-language="en" onclick="setLanguage('en')" lang="en">English</button>
+    <button class="btn secondary" data-language="fr" onclick="setLanguage('fr')" lang="fr">Français</button>
+  </div>
   <div class="login" id="loginScreen">
     <div class="loginBox">
       <div class="welcomePanel">
@@ -153,7 +158,7 @@
     let data = hydrateData();
     let state = {page:'dashboard',supplier:'All',currency:'All',year:'Invoice 2026',search:''};
     const el = id => document.getElementById(id);
-    const fmt = n => (Number(n)||0).toLocaleString(undefined,{maximumFractionDigits:2});
+    const fmt = n => (Number(n)||0).toLocaleString(window.SFM_I18N?.language==='fr'?'fr-FR':'en-GB',{maximumFractionDigits:2});
     const dzd = n => fmt(n)+' DZD';
     const money = (n,c) => fmt(n)+' '+c;
     const clsCurrency = c => (c||'').toLowerCase();
@@ -513,7 +518,7 @@
     }
     function resetLocalInvoices(){
       if(!customInvoices.length) return;
-      if(!confirm('Clear all invoices saved in this browser?')) return;
+      if(!confirm(window.SFM_I18N?.translate('Clear all invoices saved in this browser?') || 'Clear all invoices saved in this browser?')) return;
       customInvoices = [];
       saveCustomInvoices();
       data = hydrateData();
@@ -530,10 +535,11 @@
       a.click();
       URL.revokeObjectURL(a.href);
     }
-    function downloadCSV(type){ let rows=[]; if(type==='suppliers'){ const suppliers=currentSuppliers(); rows=[['Supplier','DZD Total','Share of Total %','Original Total','FOB','Freight','Invoices','Goods'],...suppliers.map(s=>[s.supplier,supplierDZD(s),supplierShare(s,suppliers),supplierOriginal(s),fobOriginal(s),freightOriginal(s),s.invoice_count,s.product_count])]; } if(type==='products'){ rows=[['Supplier','Product','UOM','Quantity','Invoices','Average Rate','Currency'],...currentProducts().map(p=>[p.supplier,p.product,p.uom,p.quantity,p.invoice_count,p.avg_rate,p.currency])]; } if(type==='invoices'){ rows=[['Supplier','Invoice','Year','Date','Product','UOM','Quantity','Unit Price','Line Total','Currency','Invoice Total','DZD Invoice Total','Photo'],...currentInvoiceProductLines().map(i=>[i.supplier,i.invoice,i.year,i.date,i.product,i.uom,i.quantity,i.rate,i.line_total,i.currency,i.invoice_total,i.dzd_total,i.photo?'Yes':''])]; } const csv=rows.map(r=>r.map(v=>'"'+String(v??'').replaceAll('"','""')+'"').join(',')).join('\n'); const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='sfm_'+type+'_'+state.year.replaceAll(' ','_')+'.csv'; a.click(); URL.revokeObjectURL(a.href); }
+    function downloadCSV(type){ let rows=[]; if(type==='suppliers'){ const suppliers=currentSuppliers(); rows=[['Supplier','DZD Total','Share of Total %','Original Total','FOB','Freight','Invoices','Goods'],...suppliers.map(s=>[s.supplier,supplierDZD(s),supplierShare(s,suppliers),supplierOriginal(s),fobOriginal(s),freightOriginal(s),s.invoice_count,s.product_count])]; } if(type==='products'){ rows=[['Supplier','Product','UOM','Quantity','Invoices','Average Rate','Currency'],...currentProducts().map(p=>[p.supplier,p.product,p.uom,p.quantity,p.invoice_count,p.avg_rate,p.currency])]; } if(type==='invoices'){ rows=[['Supplier','Invoice','Year','Date','Product','UOM','Quantity','Unit Price','Line Total','Currency','Invoice Total','DZD Invoice Total','Photo'],...currentInvoiceProductLines().map(i=>[i.supplier,i.invoice,i.year,i.date,i.product,i.uom,i.quantity,i.rate,i.line_total,i.currency,i.invoice_total,i.dzd_total,i.photo?'Yes':''])]; } if(rows.length && window.SFM_I18N) rows[0]=rows[0].map(h=>window.SFM_I18N.translate(h)); const csv=rows.map(r=>r.map(v=>'"'+String(v??'').replaceAll('"','""')+'"').join(',')).join('\n'); const blob=new Blob(['\uFEFF',csv],{type:'text/csv;charset=utf-8'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='sfm_'+type+'_'+state.year.replaceAll(' ','_')+'.csv'; a.click(); URL.revokeObjectURL(a.href); }
     function escapeHtml(str){ return String(str??'').replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m])); }
     function jsSafe(str){ return String(str??'').replace(/\\/g,'\\\\').replace(/'/g,"\\'"); }
     if(wasLoggedIn()){ el('loginScreen').style.display='none'; el('app').style.display='grid'; init(); }
   </script>
+  <script src="i18n.js"></script>
 </body>
 </html>
